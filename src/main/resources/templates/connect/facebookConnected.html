@@ -1,0 +1,36 @@
+<html ng-app="myApp" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+    <script th:src="@{~/fba.js}"></script>
+    <title>Hello Facebook</title>
+</head>
+        <body>
+
+            <h3>Connected to Facebook</h3>
+
+            <div >
+                <input type="text" ng-model="yourName" placeholder="Enter a name here"/>
+                <h1>Hello, {{ yourName | json }}!</h1>
+
+             </div>
+
+            <div ng-controller="myCtrl">
+                <p>
+                {{firstName}}You are now connected to your Facebook account.
+                <button ng-click="getAlbums()">Click here</button> to see some entries from your Facebook home feed.
+                    <br>
+
+                     <table >
+                        <tr ng-repeat="album in albums">
+                            <td>{{album.name}}</td>
+                            <td>{{album.id}}</td>
+                        </tr>
+                    </table>  <!--<img ng-src ="{{albums}}"/>-->
+                    </br>
+                </p>
+            </div>
+
+        </body>
+
+</html>
