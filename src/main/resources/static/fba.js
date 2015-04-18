@@ -9,7 +9,7 @@ app.controller('myCtrl', function($scope,$http) {
             url : '/getalbums'
         }).success(function(response){
             $scope.albums = response;
-            return JSON.stringify(response,null,'\t');
+            return /*JSON.stringify(*/response/*,null,'\t')*/;
         })
     }
 

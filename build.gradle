@@ -22,13 +22,29 @@ repositories {
     maven { url "https://repo.spring.io/libs-milestone" }
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 dependencies {
-  compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile("org.springframework.boot:spring-boot-starter-web:1.2.1.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+   // compile("org.springframework.boot:spring-boot-starter-web:1.2.1.RELEASE")
     compile("org.springframework.social:spring-social-facebook")
+
+    /*compile "org.springframework:spring-core:3.2.2.RELEASE"
+    compile "org.springframework:spring-context:3.2.2.RELEASE"*/
+    compile ("org.mongodb:mongo-java-driver:2.11.0")
+   // compile "org.springframework.data:spring-data-mongodb:1.2.0.RELEASE"
+    compile ("cglib:cglib:2.2.2")
+
+    compile("org.springframework.boot:spring-boot-starter-web:1.2.2.RELEASE")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile("org.scala-lang:scala-library:2.11.5")
+    compile("org.webjars:bootstrap:3.1.1")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile("junit:junit")
+   //compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+
 }
 
 task wrapper(type: Wrapper) {
