@@ -85,6 +85,9 @@ public class FController {
             photos.add(p.getSource());
 
         }
+
+        GridFsAppStore.writeToMongo(photos.get(0));
+
         return new ResponseEntity<List>(photos,HttpStatus.OK);
     }
 
