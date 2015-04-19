@@ -22,10 +22,10 @@ public class GridFsAppStore {
 
 	public static void writeToMongo(String url) {
 
-//		ApplicationContext ctx = new AnnotationConfigApplicationContext(Application.class);
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(Application.class);
 
-		@Autowired
-        GridFsOperations gridOperations;// = (GridFsOperations) ctx.getBean("gridFsTemplate");
+		//@Autowired
+        GridFsOperations gridOperations = (GridFsOperations) ctx.getBean("gridFsTemplate");
 
 		DBObject metaData = new BasicDBObject();
 		metaData.put("extra1", "anything 1");

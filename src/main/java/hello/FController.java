@@ -47,6 +47,10 @@ public class FController {
         return "facebookConnected";
     }
 
+    /**
+     * returns alist of albums to from Facebook
+     * @return
+     */
     @RequestMapping(value = "/getalbums", method = RequestMethod.GET)
     public Object getAlbums() {
 
@@ -67,12 +71,13 @@ public class FController {
     }
 
     /**
-     * Returns a list of Photo Links for the Listed album id
+     * Returns a list of Photo Links for the Listed album id from the local storage
      * @param albumId
      * @return ArrayList[String]
      */
     @RequestMapping(value = "/{albumId}/photos",method = RequestMethod.GET)
     public Object getPhotos(@PathVariable String albumId){
+
         MediaOperations media = facebook.mediaOperations();
 
         PagedList<Photo> listOfPhotos = media.getPhotos(albumId);
@@ -86,13 +91,13 @@ public class FController {
 
         }
 
-        GridFsAppStore.writeToMongo(photos.get(0));
+      //  GridFsAppStore.writeToMongo(photos.get(0));
 
         return new ResponseEntity<List>(photos,HttpStatus.OK);
     }
 
     /**
-     * returns albummetadata
+     * returns albummetadata fro mthe local storage
      * @param request
      * @return
      */
@@ -103,6 +108,23 @@ public class FController {
         Album album = facebook.mediaOperations().getAlbum(albumID);
 
         return new ResponseEntity(album,HttpStatus.OK);
+    }
+
+
+    /**
+     * backup a particular album to the personal db
+     */
+    @RequestMapping(value = "/backup")
+    public Object backupAlbum(HttpServletRequest request)
+    {
+        String albumId= request.getParameter("album_id");
+        FbUtils fbUtils= new FbUtils(facebook);
+        boolean result= fbUtils.backupAlbum(albumId);
+
+        if (result == true)
+            return new ResponseEntity(albumId,HttpStatus.OK);
+        else
+            return new ResponseEntity(albumId,HttpStatus.REQUEST_TIMEOUT);
     }
 
 }
