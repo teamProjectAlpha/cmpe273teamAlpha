@@ -7,7 +7,10 @@ package hello;
         import javax.swing.text.html.HTMLDocument;
 
         import org.apache.catalina.connector.Response;
+        import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+        import org.springframework.boot.autoconfigure.SpringBootApplication;
+        import org.springframework.context.annotation.ComponentScan;
         import org.springframework.http.HttpMethod;
         import org.springframework.http.HttpStatus;
         import org.springframework.http.ResponseEntity;
@@ -26,10 +29,14 @@ package hello;
 
 @Controller
 @EnableAutoConfiguration
+@ComponentScan
 @RequestMapping("/")
 public class FController {
 
     private Facebook facebook;
+
+    @Autowired
+    FbUtils fbUtils;
 
     @Inject
     public FController(Facebook facebook) {
@@ -126,7 +133,7 @@ public class FController {
     public Object backupAlbum(HttpServletRequest request)
     {
         String albumId= request.getParameter("album_id");
-        FbUtils fbUtils= new FbUtils(facebook);
+        //= new FbUtils(facebook);
         boolean result= fbUtils.backupAlbum(albumId);
 
         if (result == true)

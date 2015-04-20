@@ -1,20 +1,39 @@
 package hello;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by kaustubh on 19/04/15.
  */
+
+@Repository
 public class DAO {
 
 
+    @Autowired
+    private AlbumRepo albumRepo;
     /**
      *TODO : saves or updates the album to backeup location
      * @param aAlbum
      */
-    public void saveOrUpdate(OurAlbum aAlbum) {
+    public void update(OurAlbum aAlbum) {
+        OurAlbum update = albumRepo.findOne(aAlbum.get_id());
 
+        if(aAlbum.get_id()!=null)
+            update.set_id(aAlbum.get_id());
+        update.setComments(aAlbum.getComments());
+        update.setLikes(aAlbum.getLikes());
+        update.setPhotos(aAlbum.getPhotos());
+
+        albumRepo.save(update);
+    }
+
+    public void save(OurAlbum album){
+        albumRepo.save(album);
     }
 
     /**
@@ -23,7 +42,7 @@ public class DAO {
      * @return
      */
     public OurAlbum getAlbum(String albumId){
-        return null;
+        return albumRepo.findBy_id(albumId) ;
     }
 
     /**
@@ -31,6 +50,8 @@ public class DAO {
      * @return
      */
     public List<String> getAlbumList(){
+
+        //albumRepo.findById()
         return null;
     }
 

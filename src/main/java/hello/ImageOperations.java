@@ -103,7 +103,6 @@ public class ImageOperations {
                 File directory=new File(DirectoryLocation);
                 if(!directory.exists())
                     directory.mkdirs();
-
                 StringBuilder fileLocation=new StringBuilder(DirectoryLocation);
 
                 fileLocation.append(file.getFilename());
@@ -112,8 +111,6 @@ public class ImageOperations {
                     fileLocation.append(".jpg");
                 else
                     fileLocation.append(".png");
-
-
                 //save as another image
                 file.writeTo(fileLocation.toString());
 
