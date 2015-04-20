@@ -63,7 +63,7 @@ public class FController {
                 .mediaOperations()
                 .getAlbums();
 
-        Album a= albums.get(1);
+        Album a= albums.get(0);
         String photos = facebook.mediaOperations().getPhotos(a.getId()).get(0).getSource();
 
         return new ResponseEntity(albums, HttpStatus.OK);
@@ -83,7 +83,7 @@ public class FController {
         PagedList<Photo> listOfPhotos = media.getPhotos(albumId);
 
 
-        List<String> photos = new ArrayList<>();
+        List<String> photos = new ArrayList<String>();
 
         for (Photo p : listOfPhotos)
         {
@@ -91,9 +91,17 @@ public class FController {
 
         }
 
-      //  GridFsAppStore.writeToMongo(photos.get(0));
+        ImageOperations imageOperations=new ImageOperations();
 
-        return new ResponseEntity<List>(photos,HttpStatus.OK);
+        //writing the first album's first photo
+
+        imageOperations.writeToMongo(photos.get(0));
+
+        //reading the Image to afile from the database
+
+        imageOperations.readFromMongo();
+
+        return new ResponseEntity<String>("done reading and writing from MongoDB",HttpStatus.OK);
     }
 
     /**

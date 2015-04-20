@@ -63,14 +63,10 @@
     <orderEntry type="library" exported="" name="Gradle: asm:asm:3.3.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.scala-lang:scala-library:2.11.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.webjars:bootstrap:3.1.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.springframework.boot:spring-boot-starter-security:1.2.3.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework.boot:spring-boot-starter-data-mongodb:1.2.3.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.webjars:jquery:1.9.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.springframework.security:spring-security-config:3.2.7.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.springframework.security:spring-security-web:3.2.7.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-tx:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework.data:spring-data-mongodb:1.6.2.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.springframework.security:spring-security-core:3.2.7.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework.data:spring-data-commons:1.9.2.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.mongodb:mongo-java-driver:2.12.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.springframework.boot:spring-boot-starter-test:1.2.3.RELEASE" level="project" />
