@@ -42,13 +42,13 @@ public class ImageOperations {
     }
 
     public void writeToMongo(String url) {
-
+        String filename = "testing";
 
         gridOperations = (GridFsOperations) ctx.getBean("gridFsTemplate");
 
 		DBObject metaData = new BasicDBObject();
-		metaData.put("extra1", "anything 1");
-		metaData.put("extra2", "anything 2");
+		metaData.put("id", "anything 1");
+		metaData.put("name", "anything 2");
 
 		InputStream inputStream = null;
 		try {
@@ -66,7 +66,7 @@ public class ImageOperations {
             else
                 contentType="image/png";
 
-            GridFSFile file= gridOperations.store(inputStream,"testing",contentType, metaData);
+            GridFSFile file= gridOperations.store(inputStream,filename,contentType, metaData);
 
             System.out.println(file.getId().toString());
            // GridFSInputFile as=new GridFSInputFile(inputStream);

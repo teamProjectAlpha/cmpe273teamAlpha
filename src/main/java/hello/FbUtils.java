@@ -2,6 +2,7 @@ package hello;
 
 import org.springframework.social.facebook.api.Album;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Photo;
 
 import javax.inject.Inject;
@@ -34,7 +35,7 @@ public class FbUtils {
 //
 //      3.add photo with metadata to aAlbum
         OurAlbum aAlbum = new OurAlbum(album);
-            aAlbum.add(listOfPhotos);
+            aAlbum.add((PagedList<Photo>) listOfPhotos);
 
 //      4.store aAlbum to DB with album meta data from 1
         dbUtils.saveOrUpdate(aAlbum);
