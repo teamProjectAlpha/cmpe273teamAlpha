@@ -36,7 +36,9 @@ public class FController {
     private Facebook facebook;
 
     @Autowired
-    FbUtils fbUtils;
+    private FbUtils fbUtils;
+    @Autowired
+    private DAO dbutils;
 
     @Inject
     public FController(Facebook facebook) {
@@ -112,7 +114,7 @@ public class FController {
     }
 
     /**
-     * returns albummetadata fro mthe local storage
+     * returns albummetadata from the local storage
      * @param request
      * @return
      */
@@ -137,9 +139,9 @@ public class FController {
         boolean result= fbUtils.backupAlbum(albumId);
 
         if (result == true)
-            return new ResponseEntity(albumId,HttpStatus.OK);
+            return new ResponseEntity(dbutils.getAlbum(albumId),HttpStatus.OK);
         else
-            return new ResponseEntity(albumId,HttpStatus.REQUEST_TIMEOUT);
+            return new ResponseEntity(albumId + " adding failed",HttpStatus.REQUEST_TIMEOUT);
     }
 
 }

@@ -3,7 +3,6 @@ package hello;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -32,16 +31,16 @@ public class DAO {
         albumRepo.save(update);
     }
 
-    public void save(OurAlbum album){
-        albumRepo.save(album);
+    public OurAlbum save(OurAlbum album){
+        return albumRepo.save(album);
     }
 
     /**
-     * TODO : returns album with metadata earlier backedup
      * @param albumId
      * @return
      */
     public OurAlbum getAlbum(String albumId){
+
         return albumRepo.findBy_id(albumId) ;
     }
 

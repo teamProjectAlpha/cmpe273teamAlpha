@@ -1,24 +1,56 @@
 package hello;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.social.facebook.api.Album;
-import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.Photo;
+import org.springframework.social.facebook.api.Reference;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by kaustubh on 19/04/15.
  */
+@Document
 public class OurAlbum {
     @Id
-    String _id;
+    private String _id;
+    LinkedHashMap likes;
+    LinkedHashMap comments;
+    ArrayList<OurPhoto> photos;
+    //Reference from;
+    Date createdTime;
+    Date updatedTime;
 
-    HashMap<String,Object> likes;
-    HashMap<String,Object> comments;
-    PagedList<Photo> photos;
+    public OurAlbum (){}
+    public OurAlbum(String _id, LinkedHashMap likes, LinkedHashMap comments, ArrayList<OurPhoto> photos/*, Reference from*/, Date createdTime, Date updatedTime) {
+        this._id = _id;
+        this.likes = likes;
+        this.comments = comments;
+        this.photos = photos;
+       // this.from = from;
+        this.createdTime = createdTime;
+        this.updatedTime = updatedTime;
+    }
+
+    public OurAlbum(Album album) {
+        _id=album.getId();
+        likes= (LinkedHashMap) album.getExtraData().get("likes");
+        comments= (LinkedHashMap) album.getExtraData().get("comments");
+       // from=album.getFrom();
+        System.out.println(album.getFrom().getClass().getName());
+        createdTime= album.getCreatedTime();
+        updatedTime= album.getUpdatedTime();
+    }
+
+    public void addPhotos(ArrayList<OurPhoto> listOfPhotos) {
+        if(photos!=null)
+            photos.addAll(listOfPhotos);//=listOfPhotos;
+        else
+            photos=listOfPhotos;
+    }
+
+    //getters and setters
+
 
     public String get_id() {
         return _id;
@@ -28,42 +60,51 @@ public class OurAlbum {
         this._id = _id;
     }
 
-    public HashMap<String, Object> getLikes() {
+    public LinkedHashMap getLikes() {
         return likes;
     }
 
-    public void setLikes(HashMap<String, Object> likes) {
+    public void setLikes(LinkedHashMap likes) {
         this.likes = likes;
     }
 
-    public HashMap<String, Object> getComments() {
+    public LinkedHashMap getComments() {
         return comments;
     }
 
-    public void setComments(HashMap<String, Object> comments) {
+    public void setComments(LinkedHashMap comments) {
         this.comments = comments;
     }
 
-    public PagedList<Photo> getPhotos() {
+    public ArrayList<OurPhoto> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(PagedList<Photo> photos) {
+    public void setPhotos(ArrayList<OurPhoto> photos) {
         this.photos = photos;
     }
 
-    public OurAlbum(Album album) {
-        _id=album.getId();
-        likes= (HashMap<String, Object>) album.getExtraData().get("likes");
-        comments= (HashMap<String, Object>) album.getExtraData().get("comments");
+//    public Reference getFrom() {
+//        return from;
+//    }
+//
+//    public void setFrom(Reference from) {
+//        this.from = from;
+//    }
 
-
+    public Date getCreatedTime() {
+        return createdTime;
     }
 
-    public void addPhotos(PagedList<Photo> listOfPhotos) {
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
 
-        photos= (PagedList<Photo>) listOfPhotos;
+    public Date getUpdatedTime() {
+        return updatedTime;
+    }
 
-
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
     }
 }

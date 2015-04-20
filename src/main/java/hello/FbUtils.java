@@ -1,10 +1,7 @@
 package hello;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.facebook.api.Album;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.Photo;
+import org.springframework.social.facebook.api.*;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
@@ -25,36 +22,35 @@ public class FbUtils {
     @Inject
     public FbUtils(Facebook facebook) {
         this.facebook = facebook;
-        //dbUtils = new DAO();
     }
 
 
 
 
     public boolean backupAlbum(String albumId) {
-        //TODO : implementation of methods
+
 
 //      1.get the album metadata from Facebook
         Album album= facebook.mediaOperations().getAlbum(albumId);
 
 //      2.get list of all photo-sources for aAlbum with photo Metadata from facebook
-        ArrayList<Photo> listOfPhotos = getPhotos(albumId);
+        ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(getPhotos(albumId));
+                //getPhotos(albumId);
 
 //      3.add photo with metadata to aAlbum
         OurAlbum aAlbum = new OurAlbum(album);
-            aAlbum.addPhotos((PagedList<Photo>) listOfPhotos);
+            aAlbum.addPhotos(listOfPhotos);
 
 //      4.store aAlbum to DB with album meta data from 1
-        dbUtils.save(aAlbum);
-
+        if(dbUtils.save(aAlbum)!=null)
+            return true;
         return false;
     }
 
     private PagedList<Photo> getPhotos(String albumId) {
-        //TODO add a custom implementation of Photo Class to ensure that onely requried meta data is stored
-        PagedList<Photo> fromFB= facebook.mediaOperations().getPhotos(albumId);
-        PagedList<OurPhoto> toOurPhoto = OurPhoto.parse(fromFB);
-        return null;//TODO
+
+        return facebook.mediaOperations().getPhotos(albumId);
+
     }
 
     public PagedList<Album> getAlbums(){
