@@ -20,24 +20,22 @@ public class OurPhoto {
     String source;
     Date createdTime;
     List<Tag> tags;
-    HashMap<String,Object> likes;
-    HashMap<String,Object> comments;
-
-
-
+    HashMap<String, Object> likes;
+    HashMap<String, Object> comments;
+    Person createdBy;
 
     public static ArrayList<OurPhoto> toOurPhotos(PagedList<Photo> fromFB) {
 
         ArrayList<OurPhoto> toOurPhotos = new ArrayList<OurPhoto>();
         OurPhoto temp = null;
-        for(Photo in : fromFB){ // TODO add traversal of paged list
+        for (Photo in : fromFB) { // TODO add traversal of paged list
             toOurPhotos.add(toOurPhoto(in));
         }
 
         return toOurPhotos;//fromFB;
     }
 
-    public static OurPhoto toOurPhoto(Photo photoFromFB){
+    public static OurPhoto toOurPhoto(Photo photoFromFB) {
         OurPhoto toOurPhoto = new OurPhoto();
         //  temp.set_id(in.getFrom());
         toOurPhoto.set_id(photoFromFB.getId());
@@ -47,14 +45,22 @@ public class OurPhoto {
         toOurPhoto.setTags(photoFromFB.getTags());
         toOurPhoto.setLikes((HashMap<String, Object>) photoFromFB.getExtraData().get("likes"));
         toOurPhoto.setComments((HashMap<String, Object>) photoFromFB.getExtraData().get("comments"));
+        toOurPhoto.setCreatedBy(new Person(photoFromFB.getFrom().getId(),photoFromFB.getFrom().getName()));
         return toOurPhoto;
 
     }
 
 
-
     //getter setters
 
+
+    public Person getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Person createdBy) {
+        this.createdBy = createdBy;
+    }
 
     public String get_id() {
         return _id;

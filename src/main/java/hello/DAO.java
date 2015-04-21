@@ -15,14 +15,16 @@ public class DAO {
 
     @Autowired
     private AlbumRepo albumRepo;
+
     /**
-     *TODO : saves or updates the album to backeup location
+     * TODO : saves or updates the album to backeup location
+     *
      * @param aAlbum
      */
     public void update(OurAlbum aAlbum) {
         OurAlbum update = albumRepo.findOne(aAlbum.get_id());
 
-        if(aAlbum.get_id()!=null)
+        if (aAlbum.get_id() != null)
             update.set_id(aAlbum.get_id());
         update.setComments(aAlbum.getComments());
         update.setLikes(aAlbum.getLikes());
@@ -31,7 +33,7 @@ public class DAO {
         albumRepo.save(update);
     }
 
-    public OurAlbum save(OurAlbum album){
+    public OurAlbum save(OurAlbum album) {
         return albumRepo.save(album);
     }
 
@@ -39,21 +41,21 @@ public class DAO {
      * @param albumId
      * @return
      */
-    public OurAlbum getAlbum(String albumId){
+    public OurAlbum getAlbum(String albumId) {
 
-        return albumRepo.findBy_id(albumId) ;
+        return albumRepo.findBy_id(albumId);
     }
 
     /**
      * TODO : returns list of albums backedup
+     *
      * @return
      */
-    public List<String> getAlbumList(){
+    public List<String> getAlbumList() {
 
         //albumRepo.findById()
         return null;
     }
-
 
 
 }

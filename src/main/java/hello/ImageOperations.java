@@ -21,21 +21,19 @@ import java.util.Properties;
 
 /**
  * GridFs example
- * 
+ *
  * @author mkyong
- * 
  */
 
 public class ImageOperations {
 
-    final Properties configProp=new Properties();
+    final Properties configProp = new Properties();
     ApplicationContext ctx = new GenericXmlApplicationContext("SpringConfig.xml");
     GridFsOperations gridOperations;
 
-    ImageOperations()
-    {
+    ImageOperations() {
         try {
-            configProp.load( this.getClass().getClassLoader().getResourceAsStream("application.properties"));
+            configProp.load(this.getClass().getClassLoader().getResourceAsStream("application.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,45 +44,44 @@ public class ImageOperations {
 
         gridOperations = (GridFsOperations) ctx.getBean("gridFsTemplate");
 
-		DBObject metaData = new BasicDBObject();
-		metaData.put("id", "anything 1");
-		metaData.put("name", "anything 2");
+        DBObject metaData = new BasicDBObject();
+        metaData.put("id", "anything 1");
+        metaData.put("name", "anything 2");
 
-		InputStream inputStream = null;
-		try {
+        InputStream inputStream = null;
+        try {
             try {
                 inputStream = new URL(url).openStream();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
             String contentType;
 
-            if(url.contains("jpg"))
-                contentType="image/jpeg";
+            if (url.contains("jpg"))
+                contentType = "image/jpeg";
             else
-                contentType="image/png";
+                contentType = "image/png";
 
-            GridFSFile file= gridOperations.store(inputStream,filename,contentType, metaData);
+            GridFSFile file = gridOperations.store(inputStream, filename, contentType, metaData);
 
             System.out.println(file.getId().toString());
-           // GridFSInputFile as=new GridFSInputFile(inputStream);
+            // GridFSInputFile as=new GridFSInputFile(inputStream);
 
 
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-		System.out.println("Done Writing");
+        System.out.println("Done Writing");
 
-	}
+    }
 
     public void readFromMongo() {
 
@@ -98,12 +95,12 @@ public class ImageOperations {
                 /*System.out.println(file.getFilename());
                 System.out.println(file.getContentType());*/
 
-                String DirectoryLocation=new String(configProp.getProperty("IMAGE_DIRECTORY"));
+                String DirectoryLocation = new String(configProp.getProperty("IMAGE_DIRECTORY"));
 
-                File directory=new File(DirectoryLocation);
-                if(!directory.exists())
+                File directory = new File(DirectoryLocation);
+                if (!directory.exists())
                     directory.mkdirs();
-                StringBuilder fileLocation=new StringBuilder(DirectoryLocation);
+                StringBuilder fileLocation = new StringBuilder(DirectoryLocation);
 
                 fileLocation.append(file.getFilename());
 

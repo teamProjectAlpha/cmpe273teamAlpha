@@ -1,31 +1,31 @@
 package hello;
 
-        import javax.inject.Inject;
-        import javax.servlet.http.HttpServlet;
-        import javax.servlet.http.HttpServletRequest;
-        import javax.servlet.http.HttpServletResponse;
-        import javax.swing.text.html.HTMLDocument;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.HTMLDocument;
 
-        import org.apache.catalina.connector.Response;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-        import org.springframework.boot.autoconfigure.SpringBootApplication;
-        import org.springframework.context.annotation.ComponentScan;
-        import org.springframework.http.HttpMethod;
-        import org.springframework.http.HttpStatus;
-        import org.springframework.http.ResponseEntity;
-        import org.springframework.social.facebook.api.*;
-        import org.springframework.stereotype.Controller;
-        import org.springframework.ui.Model;
-        import org.springframework.web.bind.annotation.PathVariable;
-        import org.springframework.web.bind.annotation.RequestMapping;
-        import org.springframework.web.bind.annotation.RequestMethod;
-        import org.springframework.social.oauth2.OAuth2Operations;
-        import org.springframework.web.bind.annotation.ResponseBody;
+import org.apache.catalina.connector.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.social.facebook.api.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 @EnableAutoConfiguration
@@ -50,7 +50,7 @@ public class FController {
 
         if (!facebook.isAuthorized()) {
 
-                    return "/connect/facebook";
+            return "/connect/facebook";
         }
 
         return "facebookConnected";
@@ -58,6 +58,7 @@ public class FController {
 
     /**
      * returns alist of albums to from Facebook
+     *
      * @return
      */
     @RequestMapping(value = "/getalbums", method = RequestMethod.GET)
@@ -72,7 +73,7 @@ public class FController {
                 .mediaOperations()
                 .getAlbums();
 
-        Album a= albums.get(0);
+        Album a = albums.get(0);
         String photos = facebook.mediaOperations().getPhotos(a.getId()).get(0).getSource();
 
         return new ResponseEntity(albums, HttpStatus.OK);
@@ -81,11 +82,12 @@ public class FController {
 
     /**
      * Returns a list of Photo Links for the Listed album id from the local storage
+     *
      * @param albumId
      * @return ArrayList[String]
      */
-    @RequestMapping(value = "/{albumId}/photos",method = RequestMethod.GET)
-    public Object getPhotos(@PathVariable String albumId){
+    @RequestMapping(value = "/{albumId}/photos", method = RequestMethod.GET)
+    public Object getPhotos(@PathVariable String albumId) {
 
         MediaOperations media = facebook.mediaOperations();
 
@@ -94,13 +96,12 @@ public class FController {
 
         List<String> photos = new ArrayList<String>();
 
-        for (Photo p : listOfPhotos)
-        {
+        for (Photo p : listOfPhotos) {
             photos.add(p.getSource());
 
         }
 
-        ImageOperations imageOperations=new ImageOperations();
+        ImageOperations imageOperations = new ImageOperations();
 
         //writing the first album's first photo
 
@@ -110,21 +111,22 @@ public class FController {
 
         imageOperations.readFromMongo();
 
-        return new ResponseEntity<String>("done reading and writing from MongoDB",HttpStatus.OK);
+        return new ResponseEntity<String>("done reading and writing from MongoDB", HttpStatus.OK);
     }
 
     /**
      * returns albummetadata from the local storage
+     *
      * @param request
      * @return
      */
-    @RequestMapping(value = "/getalbummeta",method = RequestMethod.GET)
-    public Object getAlbumMeta(HttpServletRequest request){
+    @RequestMapping(value = "/getalbummeta", method = RequestMethod.GET)
+    public Object getAlbumMeta(HttpServletRequest request) {
 
         String albumID = request.getParameter("album_id");
         Album album = facebook.mediaOperations().getAlbum(albumID);
 
-        return new ResponseEntity(album,HttpStatus.OK);
+        return new ResponseEntity(album, HttpStatus.OK);
     }
 
 
@@ -132,16 +134,15 @@ public class FController {
      * backup a particular album to the personal db
      */
     @RequestMapping(value = "/backup")
-    public Object backupAlbum(HttpServletRequest request)
-    {
-        String albumId= request.getParameter("album_id");
+    public Object backupAlbum(HttpServletRequest request) {
+        String albumId = request.getParameter("album_id");
         //= new FbUtils(facebook);
-        boolean result= fbUtils.backupAlbum(albumId);
+        boolean result = fbUtils.backupAlbum(albumId);
 
         if (result == true)
-            return new ResponseEntity(dbutils.getAlbum(albumId),HttpStatus.OK);
+            return new ResponseEntity(dbutils.getAlbum(albumId), HttpStatus.OK);
         else
-            return new ResponseEntity(albumId + " adding failed",HttpStatus.REQUEST_TIMEOUT);
+            return new ResponseEntity(albumId + " adding failed", HttpStatus.REQUEST_TIMEOUT);
     }
 
 }

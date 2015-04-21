@@ -14,39 +14,41 @@ import java.util.*;
 public class OurAlbum {
     @Id
     private String _id;
-    LinkedHashMap likes;
-    LinkedHashMap comments;
-    ArrayList<OurPhoto> photos;
-    //Reference from;
-    Date createdTime;
-    Date updatedTime;
+    private LinkedHashMap likes;
+    private LinkedHashMap comments;
+    private ArrayList<OurPhoto> photos;
+    private Date createdTime;
+    private Date updatedTime;
+    private Person createdBy;
 
-    public OurAlbum (){}
-    public OurAlbum(String _id, LinkedHashMap likes, LinkedHashMap comments, ArrayList<OurPhoto> photos/*, Reference from*/, Date createdTime, Date updatedTime) {
+    public OurAlbum() {
+    }
+
+    public OurAlbum(String _id, LinkedHashMap likes, LinkedHashMap comments, ArrayList<OurPhoto> photos, Date createdTime, Date updatedTime, Person createdBy) {
         this._id = _id;
         this.likes = likes;
         this.comments = comments;
         this.photos = photos;
-       // this.from = from;
         this.createdTime = createdTime;
         this.updatedTime = updatedTime;
+        this.createdBy = createdBy;
     }
 
     public OurAlbum(Album album) {
-        _id=album.getId();
-        likes= (LinkedHashMap) album.getExtraData().get("likes");
-        comments= (LinkedHashMap) album.getExtraData().get("comments");
-       // from=album.getFrom();
+        _id = album.getId();
+        likes = (LinkedHashMap) album.getExtraData().get("likes");
+        comments = (LinkedHashMap) album.getExtraData().get("comments");
         System.out.println(album.getFrom().getClass().getName());
-        createdTime= album.getCreatedTime();
-        updatedTime= album.getUpdatedTime();
+        createdTime = album.getCreatedTime();
+        updatedTime = album.getUpdatedTime();
+        createdBy = new Person(album.getFrom().getId(), album.getFrom().getName());
     }
 
     public void addPhotos(ArrayList<OurPhoto> listOfPhotos) {
-        if(photos!=null)
+        if (photos != null)
             photos.addAll(listOfPhotos);//=listOfPhotos;
         else
-            photos=listOfPhotos;
+            photos = listOfPhotos;
     }
 
     //getters and setters
@@ -84,14 +86,6 @@ public class OurAlbum {
         this.photos = photos;
     }
 
-//    public Reference getFrom() {
-//        return from;
-//    }
-//
-//    public void setFrom(Reference from) {
-//        this.from = from;
-//    }
-
     public Date getCreatedTime() {
         return createdTime;
     }
@@ -106,5 +100,13 @@ public class OurAlbum {
 
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
+    }
+
+    public Person getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Person createdBy) {
+        this.createdBy = createdBy;
     }
 }
