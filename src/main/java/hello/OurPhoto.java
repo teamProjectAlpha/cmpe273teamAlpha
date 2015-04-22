@@ -1,10 +1,13 @@
 package hello;
 
+import com.mongodb.DBObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Photo;
 import org.springframework.social.facebook.api.Tag;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,14 +31,18 @@ public class OurPhoto {
 
         ArrayList<OurPhoto> toOurPhotos = new ArrayList<OurPhoto>();
         OurPhoto temp = null;
+        System.out.println();
         for (Photo in : fromFB) { // TODO add traversal of paged list
             toOurPhotos.add(toOurPhoto(in));
+            //PagingParameters next=fromFB.getNextPage();
         }
 
         return toOurPhotos;//fromFB;
     }
 
     public static OurPhoto toOurPhoto(Photo photoFromFB) {
+
+
         OurPhoto toOurPhoto = new OurPhoto();
         //  temp.set_id(in.getFrom());
         toOurPhoto.set_id(photoFromFB.getId());

@@ -38,7 +38,7 @@ public class FController {
     @Autowired
     private FbUtils fbUtils;
     @Autowired
-    private DAO dbutils;
+    private DAO dbUtils;
 
     @Inject
     public FController(Facebook facebook) {
@@ -89,10 +89,31 @@ public class FController {
     @RequestMapping(value = "/{albumId}/photos", method = RequestMethod.GET)
     public Object getPhotos(@PathVariable String albumId) {
 
-        MediaOperations media = facebook.mediaOperations();
+        /*MediaOperations media = facebook.mediaOperations();
 
-        PagedList<Photo> listOfPhotos = media.getPhotos(albumId);
+        PagedList<Photo> listOfPhotos = media.getPhotos(albumId);*/
 
+        ArrayList<OurPhoto> ourPhotosPhotos = fbUtils.getOurPhotos(albumId); /*OurPhoto.toOurPhotos(listOfPhotos);*/
+
+      /*  String next,after=null;
+        ArrayList<OurPhoto> toOurPhotos = new ArrayList<OurPhoto>();
+        PagingParameters p;
+        while (listOfPhotos.getNextPage()!=null)
+        {
+
+        }
+        for(Photo in : listOfPhotos)
+        {
+
+
+        }
+*/
+
+
+        //  dbUtils.savePhotoList(ourPhotosPhotos,albumId);
+
+
+/*
 
         List<String> photos = new ArrayList<String>();
 
@@ -110,8 +131,9 @@ public class FController {
         //reading the Image to afile from the database
 
         imageOperations.readFromMongo();
+*/
 
-        return new ResponseEntity<String>("done reading and writing from MongoDB", HttpStatus.OK);
+        return new ResponseEntity(ourPhotosPhotos, HttpStatus.OK);
     }
 
     /**
@@ -140,7 +162,7 @@ public class FController {
         boolean result = fbUtils.backupAlbum(albumId);
 
         if (result == true)
-            return new ResponseEntity(dbutils.getAlbum(albumId), HttpStatus.OK);
+            return new ResponseEntity(dbUtils.getAlbum(albumId), HttpStatus.OK);
         else
             return new ResponseEntity(albumId + " adding failed", HttpStatus.REQUEST_TIMEOUT);
     }

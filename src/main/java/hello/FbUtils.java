@@ -33,6 +33,7 @@ public class FbUtils {
 
 //      2.get list of all photo-sources for aAlbum with photo Metadata from facebook
         ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(getPhotos(albumId));
+        dbUtils.savePhotoList(listOfPhotos, albumId);
         //getPhotos(albumId);
 
 //      3.add photo with metadata to aAlbum
@@ -53,6 +54,16 @@ public class FbUtils {
 
     public PagedList<Album> getAlbums() {
         return facebook.mediaOperations().getAlbums();
+    }
+
+    public ArrayList<OurPhoto> getOurPhotos(String albumId) {
+        ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(getPhotos(albumId));
+        boolean flag = dbUtils.getPhotoList(listOfPhotos, albumId);
+        if (flag)
+            return listOfPhotos;
+        else
+            return null;
+
     }
 
 }

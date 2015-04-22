@@ -1,9 +1,11 @@
 package hello;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.*;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
+import com.mongodb.util.JSON;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -16,8 +18,9 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.*;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * GridFs example
@@ -39,26 +42,26 @@ public class ImageOperations {
         }
     }
 
-    public void writeToMongo(String url) {
-        String filename = "testing";
+    public void writeToMongo(OurPhoto photo, String albumId) {
+        String filename = photo.get_id();
 
         gridOperations = (GridFsOperations) ctx.getBean("gridFsTemplate");
 
         DBObject metaData = new BasicDBObject();
-        metaData.put("id", "anything 1");
-        metaData.put("name", "anything 2");
+        metaData.put("albumid", albumId);
+
 
         InputStream inputStream = null;
         try {
             try {
-                inputStream = new URL(url).openStream();
+                inputStream = new URL(photo.getSource()).openStream();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             String contentType;
 
-            if (url.contains("jpg"))
+            if (photo.getSource().contains("jpg"))
                 contentType = "image/jpeg";
             else
                 contentType = "image/png";
@@ -83,23 +86,24 @@ public class ImageOperations {
 
     }
 
-    public void readFromMongo() {
+    public void readFromMongo(String photoId, String albumId) {
 
         ApplicationContext ctx = new GenericXmlApplicationContext("SpringConfig.xml");
         GridFsOperations gridOperations = (GridFsOperations) ctx.getBean("gridFsTemplate");
 
         List<GridFSDBFile> result = gridOperations.find(new Query().addCriteria(Criteria.where(
-                "filename").is("testing")));
+                "filename").is(photoId)));
+
+
         for (GridFSDBFile file : result) {
             try {
-                /*System.out.println(file.getFilename());
-                System.out.println(file.getContentType());*/
-
                 String DirectoryLocation = new String(configProp.getProperty("IMAGE_DIRECTORY"));
-
+                DirectoryLocation += albumId + "/";
                 File directory = new File(DirectoryLocation);
                 if (!directory.exists())
                     directory.mkdirs();
+                System.out.println(directory.getAbsolutePath());
+                System.out.println(directory.getCanonicalPath());
                 StringBuilder fileLocation = new StringBuilder(DirectoryLocation);
 
                 fileLocation.append(file.getFilename());
@@ -108,7 +112,10 @@ public class ImageOperations {
                     fileLocation.append(".jpg");
                 else
                     fileLocation.append(".png");
-                //save as another image
+
+
+                // save as another image
+                System.out.println(fileLocation.toString());
                 file.writeTo(fileLocation.toString());
 
 

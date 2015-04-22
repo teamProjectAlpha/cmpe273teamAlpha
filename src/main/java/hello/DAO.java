@@ -3,6 +3,7 @@ package hello;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ public class DAO {
 
     @Autowired
     private AlbumRepo albumRepo;
+
 
     /**
      * TODO : saves or updates the album to backeup location
@@ -56,6 +58,26 @@ public class DAO {
         //albumRepo.findById()
         return null;
     }
+
+    public void savePhotoList(ArrayList<OurPhoto> ourPhotoArrayList, String albumId) {
+        ImageOperations imageOperations = new ImageOperations();
+        for (OurPhoto photo : ourPhotoArrayList)
+            imageOperations.writeToMongo(photo, albumId);
+    }
+
+    public boolean getPhotoList(ArrayList<OurPhoto> ourPhotoArrayList, String albumId) {
+
+        if (getAlbum(albumId) != null) {
+            ImageOperations imageOperations = new ImageOperations();
+            for (OurPhoto photo : ourPhotoArrayList)
+                imageOperations.readFromMongo(photo.get_id(), albumId);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 
 
 }

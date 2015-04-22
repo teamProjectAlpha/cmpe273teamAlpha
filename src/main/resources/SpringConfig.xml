@@ -6,7 +6,7 @@
                       http://www.springframework.org/schema/beans 
                       http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<mongo:db-factory id="mongoDbFactory" dbname="yourdb" />
+    <mongo:db-factory id="mongoDbFactory" dbname="imagedb"/>
 	<mongo:mapping-converter id="converter" />
 
 	<bean name="gridFsTemplate"
