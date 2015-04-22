@@ -32,9 +32,9 @@ public class FbUtils {
         Album album = facebook.mediaOperations().getAlbum(albumId);
 
 //      2.get list of all photo-sources for aAlbum with photo Metadata from facebook
-        ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(getPhotos(albumId));
-        dbUtils.savePhotoList(listOfPhotos, albumId);
         ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(facebook, albumId);
+        dbUtils.savePhotoList(listOfPhotos, albumId);
+
         //getPhotos(albumId);
 
 //      3.add photo with metadata to aAlbum
@@ -58,7 +58,7 @@ public class FbUtils {
     }
 
     public ArrayList<OurPhoto> getOurPhotos(String albumId) {
-        ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(getPhotos(albumId));
+        ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(facebook, albumId);
         boolean flag = dbUtils.getPhotoList(listOfPhotos, albumId);
         if (flag)
             return listOfPhotos;

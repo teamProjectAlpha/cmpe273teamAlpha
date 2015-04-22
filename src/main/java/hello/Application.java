@@ -14,29 +14,28 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.io.IOException;
+import java.util.Properties;
+
 @Configuration
 @AutoConfigureAfter(DispatcherServletAutoConfiguration.class)
 @SpringBootApplication
-public class Application extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter  /*extends AbstractMongoConfiguration*/ {
-    /*@Bean
-    public GridFsTemplate gridFsTemplate() throws Exception {
-        return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
-    }
+public class Application extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter {
 
-    @Override
-    protected String getDatabaseName() {
-        return "yourdb";
-    }
-
-    @Override
-    @Bean
-    public Mongo mongo() throws Exception {
-        return new MongoClient("127.0.0.1");
-    }*/
+    final Properties configProp = new Properties();
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String myExternalFilePath = "file:///./ImagesFromMongo/";
+
+        try {
+            configProp.load(this.getClass().getClassLoader().getResourceAsStream("application.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String DirectoryLocation = new String(configProp.getProperty("IMAGE_DIRECTORY"));
+
+        String myExternalFilePath = "file:///" + DirectoryLocation;
 
         registry.addResourceHandler("/m/**").addResourceLocations(myExternalFilePath);
 

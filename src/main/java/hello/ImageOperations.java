@@ -102,8 +102,7 @@ public class ImageOperations {
                 File directory = new File(DirectoryLocation);
                 if (!directory.exists())
                     directory.mkdirs();
-                System.out.println(directory.getAbsolutePath());
-                System.out.println(directory.getCanonicalPath());
+
                 StringBuilder fileLocation = new StringBuilder(DirectoryLocation);
 
                 fileLocation.append(file.getFilename());
