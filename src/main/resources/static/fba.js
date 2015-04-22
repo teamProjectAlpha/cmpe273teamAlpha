@@ -43,23 +43,50 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 		});
 	}
 
-	$scope.getAlbumMeta = function () {
+	$scope.getAlbumMeta = function (val) {
+		$scope.album_id = val;
 		$scope.detailDispVal = !$scope.detailDispVal;
+
+		$http({
+			method: 'GET',
+			url: '/getalbummeta?album_id=' + $scope.album_id
+		}).success(function (album) {
+			$scope.mongoAlbum = album;
+			return;
+		});
 	}
 
+
 	$scope.showPhotos = function (val) {
+
 		$scope.showModal = !$scope.showModal;
-		$scope.status = val + 'Coming Soon';
 		$scope.album_id = val;
-        $http({
-            method: 'GET',
-            url: '/' + $scope.album_id + '/photos'
-        }).success(function (photos) {
-			$scope.photos = photos;
-            $scope.photo_id = photos.id;
-            $scoope.photo_location = photos.source;
-            return;
-        });
+		$scope.isBackedUp = 'false';
+
+		$http({
+			method: 'GET',
+			url: '/getalbummeta?album_id=' + $scope.album_id
+
+		}).success(function (response) {
+			$scope.status = response;
+			if (status !== null) {
+				$scope.isBackedUp = 'true';
+			}
+
+		});
+
+		if ($scope.isBackedUp) {
+			$http({
+				method: 'GET',
+				url: '/' + $scope.album_id + '/photos'
+			}).success(function (photos) {
+
+				$scope.photos = photos;
+				return;
+			});
+		} else {
+			alert('Please backup this album first!');
+		}
 	}
 
 }]);
