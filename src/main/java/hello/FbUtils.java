@@ -1,7 +1,10 @@
 package hello;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.facebook.api.*;
+import org.springframework.social.facebook.api.Album;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.Photo;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
@@ -61,4 +64,7 @@ public class FbUtils {
         return dbUtils.getPhotoList(albumId);
     }
 
+    public OurAlbum getAlbum(String albumID) {
+        return dbUtils.getAlbum(albumID);
+    }
 }
