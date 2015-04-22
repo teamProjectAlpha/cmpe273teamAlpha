@@ -4,7 +4,7 @@
 <head>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script th:src="@{~/fba.js}"></script>
 	<title>Facebook TimeMachine</title>
@@ -31,12 +31,12 @@
 			</p>
 		</div>
 
-		<div class="panel panel-primary" ng-show="dispVal">
+		<div class="panel panel-primary" ng-hide="dispVal">
 			<!-- Default panel contents -->
 			<div class="panel-heading">List of albums</div>
 
 			<div class="panel-body">
-				<p>Click on album ID to start the backup.</p>
+				<p>Click on album ID to back it up on MongoDB.</p>
 			</div>
 
 			<!-- Table -->
@@ -47,39 +47,37 @@
 					<th>Details</th>
 				</tr>
 				<tr ng-repeat="album in albums">
-                    <td>{{album.name}}</td>
-                    <td><button ng-click="backupAlbum(album.id)" style="color: #15317E" class="btn btn-link">{{album.id}}</button></td>
-                    <td><button ng-click="toggleModal(album.id)" style="color: #15317E" class="btn btn-default">Show Details</button></td>
-                    <modal title="Album details" visible="showModal">
-                        <form role="form">
-                            <div class="form-group">
-                                <label>Album Name: </label>
-                                <p>{{albums.name}}</p>
-                                <label>Description: </label>
-                                <p>{{albums.description}}</p>
-                                <label>Number of photos: </label>
-                                <p>{{albums.count}}</p>
-                                <label>Privacy: </label>
-                                <p>{{albums.privacy}}</p>
-                                <label>Type: </label>
-                                <p>{{albums.type}}</p>
-                                <label>Create Time: </label>
-                                <p>{{albums.createdTime}}</p>
-                                <label>Update Time: </label>
-                                <p>{{albums.updatedTime}}</p>
-                                <label>Link: </label>
-                                <a href="{{albums.link}}" target="_blank">Go to album</a>
-                            </div>
-                        </form>
-                    </modal>
+					<td>{{album.name | uppercase}}</td>
+					<td>
+						<button ng-click="backupAlbum(album.id)" style="color: #15317E" class="btn btn-link">{{album.id}}</button>
+					</td>
+					<td>
+						<button ng-click="getAlbumMeta()" style="color: #15317E" class="btn btn-default">Show Details</button>
+						<div class="detailContainer">
+							<div ng-hide="detailDispVal" style="height: 120px; background: none repeat scroll 0% 0% rgb(246, 229, 246); width: 300px; float: left; margin: 10px;">
+								<ul>
+									<li>Photo Count:
+										<button ng-click="showPhotos(album.id)" style="color: #15317E" class="btn btn-link">{{album.count}}</button>
+									</li>
+									<li>Created Time: {{album.createdTime}}</li>
+									<li>Update Time: {{album.updatedTime}}</li>
+								</ul>
+							</div>
+							<!-- Implement Modal from here-->
+							<!-- add ng-hide="showModal" to modal tag instead of div tag below-->
+							<div ng-hide="showModal" style="width: 300px; height: 300px; background: none repeat scroll 0% 0% rgb(232, 243, 232); margin: 10px; float: left;">
+								<p>{{status}}</p>
+							</div>
+							<!-- modal ends-->
+						</div>
+					</td>
 				</tr>
 
 			</table>
 		</div>
-		<!--<img ng-src ="{{albums}}"/>-->
+		<!--<img ng-src =" {{albums}} "/>-->
 	</div>
 
 </body>
 
->>>>>>> origin/master
 </html>
