@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class FbUtils {
 
 
-    private Facebook facebook;
+    public static Facebook facebook;
 
     @Autowired
     private DAO dbUtils;
@@ -34,6 +34,7 @@ public class FbUtils {
 //      2.get list of all photo-sources for aAlbum with photo Metadata from facebook
         ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(getPhotos(albumId));
         dbUtils.savePhotoList(listOfPhotos, albumId);
+        ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(facebook, albumId);
         //getPhotos(albumId);
 
 //      3.add photo with metadata to aAlbum
