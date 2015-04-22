@@ -31,7 +31,12 @@ app.controller('myCtrl', function($scope,$http) {
             url: '/backup?album_id='+$scope.album_id
         }).success(function(response){
             $scope.status = response;
-            return;
+            if($scope.status === null){
+                alert("Album "+$scope.status._id +" is successfully backed up!");
+            }else{
+                alert("Backup failed");
+            }
+            return status;
         });
     }
 
