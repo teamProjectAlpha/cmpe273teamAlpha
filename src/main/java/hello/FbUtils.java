@@ -58,13 +58,7 @@ public class FbUtils {
     }
 
     public ArrayList<OurPhoto> getOurPhotos(String albumId) {
-        ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(facebook, albumId);
-        boolean flag = dbUtils.getPhotoList(listOfPhotos, albumId);
-        if (flag)
-            return listOfPhotos;
-        else
-            return null;
-
+        return dbUtils.getPhotoList(albumId);
     }
 
 }

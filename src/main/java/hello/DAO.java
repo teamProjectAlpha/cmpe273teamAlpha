@@ -65,16 +65,15 @@ public class DAO {
             imageOperations.writeToMongo(photo, albumId);
     }
 
-    public boolean getPhotoList(ArrayList<OurPhoto> ourPhotoArrayList, String albumId) {
+    public ArrayList<OurPhoto> getPhotoList(String albumId) {
+
+        ArrayList<OurPhoto> ourPhotoArrayList = null;
 
         if (getAlbum(albumId) != null) {
-            ImageOperations imageOperations = new ImageOperations();
-            for (OurPhoto photo : ourPhotoArrayList)
-                imageOperations.readFromMongo(photo.get_id(), albumId);
-            return true;
-        } else {
-            return false;
+            ourPhotoArrayList = getAlbum(albumId).getPhotos();
         }
+
+        return ourPhotoArrayList;
 
     }
 

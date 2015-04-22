@@ -51,14 +51,14 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 		$scope.showModal = !$scope.showModal;
 		$scope.status = val + 'Coming Soon';
 		$scope.album_id = val;
-//		$http({
-//			method: 'GET',
-//			url: '/' + $scope.album_id + '/photosmeta'
-//		}).success(function (photos) {
-//			$scope.photo_name = photos.name;
-//			$scoope.photo_location = photos.src;
-//			return;
-//		});
+        $http({
+            method: 'GET',
+            url: '/' + $scope.album_id + '/photos'
+        }).success(function (photos) {
+            $scope.photo_id = photos.id;
+            $scoope.photo_location = photos.source;
+            return;
+        });
 	}
 
 }]);

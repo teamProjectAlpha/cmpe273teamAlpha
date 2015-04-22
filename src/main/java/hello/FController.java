@@ -73,9 +73,6 @@ public class FController {
                 .mediaOperations()
                 .getAlbums();
 
-        Album a = albums.get(0);
-        String photos = facebook.mediaOperations().getPhotos(a.getId()).get(0).getSource();
-
         return new ResponseEntity(albums, HttpStatus.OK);
 
     }
@@ -89,51 +86,9 @@ public class FController {
     @RequestMapping(value = "/{albumId}/photos", method = RequestMethod.GET)
     public Object getPhotos(@PathVariable String albumId) {
 
-        /*MediaOperations media = facebook.mediaOperations();
+        ArrayList<OurPhoto> ourPhotos = fbUtils.getOurPhotos(albumId);
 
-        PagedList<Photo> listOfPhotos = media.getPhotos(albumId);*/
-
-        ArrayList<OurPhoto> ourPhotosPhotos = fbUtils.getOurPhotos(albumId); /*OurPhoto.toOurPhotos(listOfPhotos);*/
-
-      /*  String next,after=null;
-        ArrayList<OurPhoto> toOurPhotos = new ArrayList<OurPhoto>();
-        PagingParameters p;
-        while (listOfPhotos.getNextPage()!=null)
-        {
-
-        }
-        for(Photo in : listOfPhotos)
-        {
-
-
-        }
-*/
-
-
-        //  dbUtils.savePhotoList(ourPhotosPhotos,albumId);
-
-
-/*
-
-        List<String> photos = new ArrayList<String>();
-
-        for (Photo p : listOfPhotos) {
-            photos.add(p.getSource());
-
-        }
-
-        ImageOperations imageOperations = new ImageOperations();
-
-        //writing the first album's first photo
-
-        imageOperations.writeToMongo(photos.get(0));
-
-        //reading the Image to afile from the database
-
-        imageOperations.readFromMongo();
-*/
-
-        return new ResponseEntity(ourPhotosPhotos, HttpStatus.OK);
+        return new ResponseEntity(ourPhotos, HttpStatus.OK);
     }
 
     /**
