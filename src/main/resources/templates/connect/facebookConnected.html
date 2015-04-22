@@ -38,7 +38,29 @@
                             <tr ng-repeat="album in albums">
                                 <td>{{album.name}}</td>
                                 <td><button ng-click="backupAlbum(album.id)" style="color: #15317E" class="btn btn-link">{{album.id}}</button></td>
-                                <td><button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show Details</button></td>
+                                <td><button ng-click="toggleModal(album.id)" style="color: #15317E" class="btn btn-default">Show Details</button></td>
+                                <modal title="Album details" visible="showModal">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label>Album Name: </label>
+                                            <p>{{albums.name}}</p>
+                                            <label>Description: </label>
+                                            <p>{{albums.description}}</p>
+                                            <label>Number of photos: </label>
+                                            <p>{{albums.count}}</p>
+                                            <label>Privacy: </label>
+                                            <p>{{albums.privacy}}</p>
+                                            <label>Type: </label>
+                                            <p>{{albums.type}}</p>
+                                            <label>Create Time: </label>
+                                            <p>{{albums.createdTime}}</p>
+                                            <label>Update Time: </label>
+                                            <p>{{albums.updatedTime}}</p>
+                                            <label>Link: </label>
+                                            <a href="{{albums.link}}" target="_blank">Go to album</a>
+                                        </div>
+                                    </form>
+                                </modal>
                             </tr>
 
                         </table>
