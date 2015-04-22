@@ -55,6 +55,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
             method: 'GET',
             url: '/' + $scope.album_id + '/photos'
         }).success(function (photos) {
+			$scope.photos = photos;
             $scope.photo_id = photos.id;
             $scoope.photo_location = photos.source;
             return;

@@ -69,9 +69,10 @@
 								<p>{{status}}</p>
 
 								<ul ng-repeat="item in photos">
-	<li>
-        <a href="{{photo_location}}">{{photo_id}}</a>
-	</li>
+                                    <li>
+                                        <a href="{{item.source}}">{{item._id + '' +item.name}}</a>
+                                        <img ng-src="{{item.source}}" ng-width="200" ng-height="200"/>
+                                    </li>
                                 </ul>
 							</div>
 							<!-- modal ends-->
