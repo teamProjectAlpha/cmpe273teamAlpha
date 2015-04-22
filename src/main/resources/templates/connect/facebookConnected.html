@@ -1,52 +1,73 @@
-<html ng-app="myApp" xmlns="http://www.w3.org/1999/html">
+<!DOCTYPE html>
+<html>
 
 <head>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script th:src="@{~/fba.js}"></script>
-    <title>Hello Facebook</title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script th:src="@{~/fba.js}"></script>
+	<title>Facebook TimeMachine</title>
 </head>
-        <body>
-            <div class="page-header" style="background-color: #15317E">
-                <h2 align="center" style="color:#FFFFFF">Albums</h2>
-            </div>
+
+<body ng-app="myApp">
+	<div class="page-header" style="background-color: #15317E">
+		<h2 align="center" style="color:#FFFFFF">Facebook Time Machine</h2>
+	</div>
 
 
+	<div ng-controller="myCtrl">
+		<div class="main" style="text-align:center">
+			<h2>Welcome, {{username}}</h2> We are now connected to your Facebook account.
+			<p>What would you like to do?</p>
+			<label>See albums from:
+				<select>
+					<option value="Facebook">Facebook</option>
+					<option value="MongoDB">MongoDB</option>
+				</select>
+			</label>
+			<p>
+				<button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show</button>
+			</p>
+		</div>
 
-            <div ng-controller="myCtrl">
-                <p>
-                {{firstName}}You are now connected to your Facebook account.
-                <button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Click here</button> to see some entries from your Facebook home feed.
-                    <br/>
-                    <div class="panel panel-primary">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">List of albums</div>
+		<div class="panel panel-primary" ng-show="dispVal">
+			<!-- Default panel contents -->
+			<div class="panel-heading">List of albums</div>
 
-                        <div class="panel-body">
-                            <p>Click on album ID to start the backup.</p>
-                        </div>
+			<div class="panel-body">
+				<p>Click on album ID to start the backup.</p>
+			</div>
 
-                        <!-- Table -->
-                        <table class="table">
-                            <tr>
-                                <th>Album Name</th>
-                                <th>Album ID</th>
-                                <th>Show Albums</th>
-                            </tr>
-                            <tr ng-repeat="album in albums">
-                                <td>{{album.name}}</td>
-                                <td><button ng-click="backupAlbum(album.id)" style="color: #15317E" class="btn btn-link">{{album.id}}</button></td>
-                                <td><button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show Details</button></td>
-                            </tr>
+			<!-- Table -->
+			<table class="table">
+				<tr>
+					<th>Album Name</th>
+					<th>Album ID</th>
+					<th>Details</th>
+				</tr>
+				<tr ng-repeat="album in albums">
+					<td>{{album.name}}</td>
+					<td>
+						<button ng-click="backupAlbum(album.id)" style="color: #15317E" class="btn btn-link">{{album.id}}</button>
+					</td>
+					<td>
+						<button ng-click="getAlbumMeta()" style="color: #15317E" class="btn btn-default">Show Details</button>
+						<div ng-show="detailDispVal">
+							<ul>
+								<li>Photo Count: {{album.count}}</li>
+								<li>Created Time: {{album.createdTime}}</li>
+								<li>Update Time: {{album.updatedTime}}</li>
+							</ul>
+						</div>
+					</td>
+				</tr>
 
-                        </table>
-                    </div>
-                <!--<img ng-src ="{{albums}}"/>-->
-                    <br/>
-                </p>
-            </div>
+			</table>
+		</div>
+		<!--<img ng-src ="{{albums}}"/>-->
+	</div>
 
-        </body>
+</body>
+
 </html>
