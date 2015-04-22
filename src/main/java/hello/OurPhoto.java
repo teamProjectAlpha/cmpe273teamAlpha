@@ -1,9 +1,7 @@
 package hello;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.Photo;
-import org.springframework.social.facebook.api.Tag;
+import org.springframework.social.facebook.api.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,16 +18,30 @@ public class OurPhoto {
     String source;
     Date createdTime;
     List<Tag> tags;
-    HashMap<String, Object> likes;
+    ArrayList<OurReference> likes;
     HashMap<String, Object> comments;
     Person createdBy;
 
-    public static ArrayList<OurPhoto> toOurPhotos(PagedList<Photo> fromFB) {
+    public static ArrayList<OurPhoto> toOurPhotos(Facebook facebook, String albumId) {
 
+        PagedList<Photo> fromFB = facebook.mediaOperations().getPhotos(albumId);
         ArrayList<OurPhoto> toOurPhotos = new ArrayList<OurPhoto>();
-        OurPhoto temp = null;
-        for (Photo in : fromFB) { // TODO add traversal of paged list
-            toOurPhotos.add(toOurPhoto(in));
+
+        int hasNextPage = 1;
+
+        while (hasNextPage == 1) {
+
+
+            for (Photo in : fromFB) {
+                toOurPhotos.add(toOurPhoto(in));
+            }
+
+            if (fromFB.getNextPage() != null) {
+                PagingParameters pm = fromFB.getNextPage();
+                fromFB = facebook.mediaOperations().getPhotos(albumId, pm);
+                hasNextPage = 1;
+            } else
+                hasNextPage = 0;
         }
 
         return toOurPhotos;//fromFB;
@@ -43,13 +55,41 @@ public class OurPhoto {
         toOurPhoto.setSource(photoFromFB.getSource());
         toOurPhoto.setCreatedTime(photoFromFB.getCreatedTime());
         toOurPhoto.setTags(photoFromFB.getTags());
-        toOurPhoto.setLikes((HashMap<String, Object>) photoFromFB.getExtraData().get("likes"));
+        //toOurPhoto.setLikes((HashMap<String, Object>) photoFromFB.getExtraData().get("likes"));
+        toOurPhoto.setLikes(toOurLikes(photoFromFB));
         toOurPhoto.setComments((HashMap<String, Object>) photoFromFB.getExtraData().get("comments"));
-        toOurPhoto.setCreatedBy(new Person(photoFromFB.getFrom().getId(),photoFromFB.getFrom().getName()));
+        toOurPhoto.setCreatedBy(new Person(photoFromFB.getFrom().getId(), photoFromFB.getFrom().getName()));
         return toOurPhoto;
 
     }
 
+
+    public static ArrayList<OurReference> toOurLikes(Photo fromFB) {
+
+        //PagedList theLikes = (PagedList) fromFB.getExtraData().get("likes");
+        PagedList<Reference> theLikes = FbUtils.facebook.likeOperations().getLikes(fromFB.getId());
+        //Reference r= null;
+
+        ArrayList<OurReference> ourLikes = new ArrayList<OurReference>();
+
+        PagingParameters NextPage = theLikes.getNextPage();
+        int hasNextPage = 1;
+
+        while (hasNextPage == 1) {
+            NextPage = theLikes.getNextPage();
+            for (Reference like : theLikes) {
+                ourLikes.add(new OurReference(like.getId(), like.getName()));
+            }
+            if (NextPage != null) {
+                hasNextPage = 1;
+                theLikes = FbUtils.facebook.likeOperations().getLikes(fromFB.getId(), NextPage);
+            } else
+                hasNextPage = 0;
+        }
+
+
+        return ourLikes;
+    }
 
     //getter setters
 
@@ -102,11 +142,24 @@ public class OurPhoto {
         this.tags = tags;
     }
 
-    public HashMap<String, Object> getLikes() {
+//    public ArrayList<Object> getLikes() {
+//
+//        return likes;
+//    }
+//
+//    public void setLikes(ArrayList<OurReference> likes) {
+//        this.likes = likes;
+//    }
+// public void setLikes(HashMap<String, Object> likes) {
+//       likes this.likes = likes;
+//    }
+
+
+    public ArrayList<OurReference> getLikes() {
         return likes;
     }
 
-    public void setLikes(HashMap<String, Object> likes) {
+    public void setLikes(ArrayList<OurReference> likes) {
         this.likes = likes;
     }
 

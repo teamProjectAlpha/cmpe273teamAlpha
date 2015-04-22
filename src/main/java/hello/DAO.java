@@ -51,7 +51,7 @@ public class DAO {
      *
      * @return
      */
-    public List<String> getAlbumList() {
+    public List<String> getAlbumList(String Id) {
 
         //albumRepo.findById()
         return null;
