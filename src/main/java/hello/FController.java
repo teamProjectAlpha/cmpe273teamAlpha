@@ -77,7 +77,6 @@ public class FController {
     public Object getPhotos(@PathVariable String albumId) {
 
         ArrayList<OurPhoto> ourPhotos = fbUtils.getOurPhotos(albumId);
-
         return new ResponseEntity(ourPhotos, HttpStatus.OK);
     }
 
@@ -115,4 +114,15 @@ public class FController {
             return new ResponseEntity(null, HttpStatus.NO_CONTENT);
     }
 
+
+    @RequestMapping(value = "/getbackedupalbums")
+    public Object getAlbumsBy(HttpServletRequest request) {
+        String person_id = request.getParameter("person_id");
+        ArrayList<OurAlbum> albums = fbUtils.getOurAlbumsBy(person_id);
+
+        if (!albums.isEmpty())
+            return new ResponseEntity(albums, HttpStatus.OK);
+        else
+            return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+    }
 }

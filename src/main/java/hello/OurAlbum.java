@@ -2,9 +2,14 @@ package hello;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.social.facebook.api.*;
+import org.springframework.social.facebook.api.Album;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagingParameters;
+import org.springframework.social.facebook.api.Reference;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
 
 /**
  * Created by kaustubh on 19/04/15.
@@ -46,6 +51,7 @@ public class OurAlbum {
         updatedTime = album.getUpdatedTime();
         createdBy = new Person(album.getFrom().getId(), album.getFrom().getName());
         name = album.getName();
+
     }
 
     public static ArrayList<OurReference> toOurLikes(Album fromFB) {

@@ -38,8 +38,6 @@ public class FbUtils {
         ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(facebook, albumId);
         dbUtils.savePhotoList(listOfPhotos, albumId);
 
-        //getPhotos(albumId);
-
 //      3.add photo with metadata to aAlbum
         OurAlbum aAlbum = new OurAlbum(album);
         aAlbum.addPhotos(listOfPhotos);
@@ -66,5 +64,10 @@ public class FbUtils {
 
     public OurAlbum getAlbum(String albumID) {
         return dbUtils.getAlbum(albumID);
+    }
+
+
+    public ArrayList<OurAlbum> getOurAlbumsBy(String person_id) {
+        return dbUtils.getAlbumsBy(person_id);
     }
 }

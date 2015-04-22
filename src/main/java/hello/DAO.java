@@ -78,5 +78,7 @@ public class DAO {
     }
 
 
-
+    public ArrayList<OurAlbum> getAlbumsBy(String person_id) {
+        return albumRepo.findByCreatedBy(person_id);
+    }
 }
