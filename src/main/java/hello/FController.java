@@ -83,7 +83,7 @@ public class FController {
      * @param albumId
      * @return ArrayList[String]
      */
-    @RequestMapping(value = "/{albumId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{albumId}/photos", method = RequestMethod.GET)
     public Object getPhotos(@PathVariable String albumId) {
 
         ArrayList<OurPhoto> ourPhotos = fbUtils.getOurPhotos(albumId);
