@@ -25,11 +25,11 @@ public class OurAlbum {
     private Date createdTime;
     private Date updatedTime;
     private Person createdBy;
-
+    private int count;
     public OurAlbum() {
     }
 
-    public OurAlbum(String _id, ArrayList<OurReference> likes, LinkedHashMap comments, ArrayList<OurPhoto> photos, Date createdTime, Date updatedTime, Person createdBy, String name) {
+    public OurAlbum(String _id, ArrayList<OurReference> likes, LinkedHashMap comments, ArrayList<OurPhoto> photos, Date createdTime, Date updatedTime, Person createdBy, String name, int count) {
         this._id = _id;
         this.likes = likes;
         this.comments = comments;
@@ -38,6 +38,7 @@ public class OurAlbum {
         this.updatedTime = updatedTime;
         this.createdBy = createdBy;
         this.name = name;
+        this.count = count;
 
     }
 
@@ -51,7 +52,7 @@ public class OurAlbum {
         updatedTime = album.getUpdatedTime();
         createdBy = new Person(album.getFrom().getId(), album.getFrom().getName());
         name = album.getName();
-
+        count = album.getCount();
     }
 
     public static ArrayList<OurReference> toOurLikes(Album fromFB) {
@@ -160,5 +161,13 @@ public class OurAlbum {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }
