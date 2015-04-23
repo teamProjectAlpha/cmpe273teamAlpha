@@ -18,7 +18,8 @@
 
 	<div ng-controller="myCtrl">
 		<div class="main" style="text-align:center">
-			<h2>Welcome, {{username}}</h2> We are now connected to your Facebook account.
+			<h2>Welcome, {{albums.from.name}}</h2> We are now connected to your Facebook account.
+			<!--
 			<p>What would you like to do?</p>
 			<label>See albums from:
 				<select>
@@ -26,9 +27,10 @@
 					<option value="MongoDB">MongoDB</option>
 				</select>
 			</label>
-			<p>
-				<button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show</button>
-			</p>
+-->
+			<p>Click 'Show Albums' to get available albums from your facebook Account.</p>
+			<button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show Albums</button>
+
 		</div>
 
 		<div class="panel panel-primary" ng-hide="dispVal">
@@ -52,27 +54,27 @@
 						<button ng-click="backupAlbum(album.id)" style="color: #15317E" class="btn btn-link">{{album.id}}</button>
 					</td>
 					<td>
-						<button ng-click="getAlbumMeta()" style="color: #15317E" class="btn btn-default">Show Details</button>
+						<button ng-click="getAlbumMeta(album.id)" style="color: #15317E" class="btn btn-default">Show Details</button>
 						<div class="detailContainer">
 							<div ng-hide="detailDispVal" style="height: 120px; background: none repeat scroll 0% 0% rgb(246, 229, 246); width: 300px; float: left; margin: 10px;">
 								<ul>
 									<li>Photo Count:
-										<button ng-click="showPhotos(album.id)" style="color: #15317E" class="btn btn-link">{{album.count}}</button>
+										<button ng-click="showPhotos(mongoAlbum._id)" style="color: #15317E" class="btn btn-link">{{mongoAlbum.count}}</button>
 									</li>
-									<li>Created Time: {{album.createdTime}}</li>
-									<li>Update Time: {{album.updatedTime}}</li>
+									<li>Created Time: {{mongoAlbum.createdTime}}</li>
+									<li>Update Time: {{mongoAlbum.updatedTime}}</li>
 								</ul>
 							</div>
 							<!-- Implement Modal from here-->
 							<!-- add ng-hide="showModal" to modal tag instead of div tag below-->
 							<div ng-hide="showModal" style="width: 300px; height: 300px; background: none repeat scroll 0% 0% rgb(232, 243, 232); margin: 10px; float: left;">
-								<p>{{status}}</p>
 
 								<ul ng-repeat="item in photos">
-	<li>
-        <a href="{{photo_location}}">{{photo_id}}</a>
-	</li>
-                                </ul>
+									<li>
+										<a href="{{item.source}}">{{'ID: '+item._id + ',NAME:' +item.name}}</a>
+										<!--										<img ng-src="{{item.source}}" ng-width="200" ng-height="200" />-->
+									</li>
+								</ul>
 							</div>
 							<!-- modal ends-->
 						</div>
@@ -81,7 +83,6 @@
 
 			</table>
 		</div>
-		<!--<img ng-src =" {{albums}} "/>-->
 	</div>
 
 </body>

@@ -1,14 +1,8 @@
 package hello;
 
-import com.mongodb.DBObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.social.facebook.api.*;
-import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagingParameters;
-import org.springframework.social.facebook.api.Photo;
-import org.springframework.social.facebook.api.Tag;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +21,7 @@ public class OurPhoto {
     ArrayList<OurReference> likes;
     HashMap<String, Object> comments;
     Person createdBy;
+
 
     public static ArrayList<OurPhoto> toOurPhotos(Facebook facebook, String albumId) {
 
