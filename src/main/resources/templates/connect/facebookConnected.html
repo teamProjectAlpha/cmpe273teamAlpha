@@ -30,7 +30,7 @@
 -->
 			<p>Click 'Show Albums' to get available albums from your facebook Account.</p>
 			<button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show Albums</button>
-
+			<br/>
 		</div>
 
 		<div class="panel panel-primary" ng-hide="dispVal">
@@ -51,7 +51,7 @@
 				<tr ng-repeat="album in albums">
 					<td>{{album.name | uppercase}}</td>
 					<td>
-						<button ng-click="backupAlbum(album.id)" style="color: #15317E" class="btn btn-link">{{album.id}}</button>
+						<button id="linkbtn" ng-click="backupAlbum(album.id)" style="color: #15317E" class="btn btn-link">{{album.id}}</button>
 					</td>
 					<td>
 						<button ng-click="getAlbumMeta(album.id)" style="color: #15317E" class="btn btn-default">Show Details</button>
