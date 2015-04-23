@@ -68,7 +68,7 @@ public class ImageOperations {
 
             GridFSFile file = gridOperations.store(inputStream, filename, contentType, metaData);
 
-            System.out.println(file.getId().toString());
+            //System.out.println(file.getId().toString());
             // GridFSInputFile as=new GridFSInputFile(inputStream);
 
 
@@ -82,14 +82,15 @@ public class ImageOperations {
             }
         }
 
-        System.out.println("Done Writing");
+        System.out.println("Done Writing Photo with ID : " + filename);
 
     }
 
-    public void readFromMongo(String photoId, String albumId) {
+    public String readFromMongo(String photoId, String albumId) {
 
         ApplicationContext ctx = new GenericXmlApplicationContext("SpringConfig.xml");
         GridFsOperations gridOperations = (GridFsOperations) ctx.getBean("gridFsTemplate");
+        String url = null;
 
         List<GridFSDBFile> result = gridOperations.find(new Query().addCriteria(Criteria.where(
                 "filename").is(photoId)));
@@ -116,6 +117,9 @@ public class ImageOperations {
                 // save as another image
                 System.out.println(fileLocation.toString());
                 file.writeTo(fileLocation.toString());
+                url = fileLocation.toString();
+
+
 
 
             } catch (IOException e) {
@@ -123,7 +127,9 @@ public class ImageOperations {
             }
         }
 
-        System.out.println("Done Reading From Database");
+        System.out.println("Done Reading Image " + photoId + " From Database");
+
+        return url;
 
     }
 }
