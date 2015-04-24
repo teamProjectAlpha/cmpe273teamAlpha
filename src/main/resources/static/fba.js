@@ -14,7 +14,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			$scope.albums = response;
 			return response;
 		})
-	}
+	};
 
 	$scope.getPhotos = function (val) {
 		$scope.album_id = val;
@@ -23,9 +23,9 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			url: '/' + $scope.album_id + '/photos'
 		}).success(function (response) {
 			$scope.photos = response;
-			return;
+
 		});
-	}
+	};
 
 	$scope.backupAlbum = function (val) {
 		$scope.album_id = val;
@@ -35,13 +35,13 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 		}).success(function (response) {
 			$scope.status = response;
 			if ($scope.status !== null) {
-				alert("Album " + $scope.status._id + " is successfully backed up!");
+				alert("Album " + $scope.status + " is successfully backed up!");
 			} else {
 				alert("Sorry, Backup failed");
 			}
 			return status;
 		});
-	}
+	};
 
 	$scope.getAlbumMeta = function (val) {
 		$scope.album_id = val;
@@ -51,10 +51,11 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			method: 'GET',
 			url: '/getalbummeta?album_id=' + $scope.album_id
 		}).success(function (album) {
+
 			$scope.mongoAlbum = album;
-			return;
+
 		});
-	}
+	};
 
 
 	$scope.showPhotos = function (val) {
@@ -82,7 +83,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			}).success(function (photos) {
 
 				$scope.photos = photos;
-				return;
+
 			});
 		} else {
 			alert('Please backup this album first!');
