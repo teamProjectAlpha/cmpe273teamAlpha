@@ -8,7 +8,9 @@ import org.springframework.social.facebook.api.Photo;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Created by kaustubh on 19/04/15.
@@ -60,6 +62,14 @@ public class FbUtils {
 
     public ArrayList<OurPhoto> getOurPhotos(String albumId) {
         return dbUtils.getPhotoList(albumId);
+    }
+
+    public String getImageURL(String albumId, String photoId) {
+
+        ImageOperations imageOperations = new ImageOperations();
+        String imageURL = imageOperations.readFromMongo(photoId, albumId);
+        imageURL = imageURL.substring(1, imageURL.length());
+        return imageURL;
     }
 
     public OurAlbum getAlbum(String albumID) {
