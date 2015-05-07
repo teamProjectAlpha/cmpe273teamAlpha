@@ -1,5 +1,6 @@
 package hello;
 
+import aws.s3.aws;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
@@ -10,13 +11,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Properties;
-
 /**
  * GridFs example
  *
@@ -125,6 +123,68 @@ public class ImageOperations {
         System.out.println("Done Reading Image " + photoId + " From Database");
 
         return url;
+
+    }
+
+    public void getImageFromFacebook(OurPhoto photo, String albumId) {
+
+        String DirectoryLocation = new String(configProp.getProperty("IMAGE_DIRECTORY"));
+        DirectoryLocation += albumId + "/";
+        File directory = new File(DirectoryLocation);
+        if (!directory.exists())
+            directory.mkdirs();
+
+        String photo_id = photo.get_id();
+
+        InputStream inputStream = null;
+
+        try {
+
+            inputStream = new URL(photo.getSource()).openStream();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String contentType;
+        if (photo.getSource().contains("jpg"))
+            contentType = ".jpg";
+        else
+            contentType = ".png";
+
+
+        StringBuilder fileLocation = new StringBuilder(DirectoryLocation);
+        fileLocation.append(photo_id);
+        fileLocation.append(contentType);
+
+
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(fileLocation.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        byte[] b = new byte[2048];
+        int length;
+
+        try {
+            while ((length = inputStream.read(b)) != -1) {
+                os.write(b, 0, length);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        aws.uploadFile(fileLocation.toString());
+
+
+        // save as another image
+        System.out.println(fileLocation.toString());
+        // file.writeTo(fileLocation.toString());
+        //url = fileLocation.toString();
+
+//        return url;
 
     }
 }

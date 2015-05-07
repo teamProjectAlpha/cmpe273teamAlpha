@@ -7,10 +7,8 @@ import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Photo;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  * Created by kaustubh on 19/04/15.
@@ -24,9 +22,12 @@ public class FbUtils {
     @Autowired
     private DAO dbUtils;
 
-    @Inject
+    @Autowired
     public FbUtils(Facebook facebook) {
         this.facebook = facebook;
+    }
+
+    public FbUtils() {
     }
 
 
