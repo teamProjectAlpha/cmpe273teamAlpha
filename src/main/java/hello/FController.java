@@ -55,6 +55,7 @@ public class FController {
 
         if (!facebook.isAuthorized()) {
 
+
             return "redirect:/connect/facebook";
         }
 

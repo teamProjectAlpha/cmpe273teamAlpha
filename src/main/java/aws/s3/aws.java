@@ -87,7 +87,7 @@ public class aws {
         AccessControlList acl = new AccessControlList();
         acl.grantPermission(GroupGrantee.AuthenticatedUsers, Permission.Read);
         acl.grantPermission(GroupGrantee.AuthenticatedUsers, Permission.Write);
-        PutObjectRequest o = new PutObjectRequest(BUCKET, file.getName(), file).withAccessControlList(acl);
+        PutObjectRequest o = new PutObjectRequest(BUCKET, file.getParent() +"/"+ file.getName(), file).withAccessControlList(acl);
         PutObjectResult result = s3Client.putObject(o);
         return (result.getETag());
 
