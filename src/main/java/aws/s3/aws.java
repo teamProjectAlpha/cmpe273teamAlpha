@@ -129,7 +129,7 @@ public class aws {
      * TEST for the functions
      * @param args
      */
-    public static void main(String[] args) {
+    public static void test(String[] args) {
 
         uploadFile("./newFile.txt");
         System.out.println(getUrlfor("newFile.txt"));

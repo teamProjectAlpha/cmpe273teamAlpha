@@ -37,7 +37,6 @@ public class FController {
 
     @RequestMapping(method = RequestMethod.GET)
     public Object helloFacebook() {
-
         if (!facebook.isAuthorized()) {
 
             return "/connect/facebook";

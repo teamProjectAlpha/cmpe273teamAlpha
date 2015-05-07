@@ -28,7 +28,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 	}
 
 	$scope.backupAlbum = function (val) {
-		alert("Started backup... This may take few seconds to complete...Click OK to continue.");
+		alert("Started backup... This will take few seconds to complete...Click OK to continue.");
 		$scope.album_id = val;
 		document.getElementById("linkbtn").disabled = true;
 		$http({

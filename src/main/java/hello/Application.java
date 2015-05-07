@@ -43,6 +43,7 @@ public class Application extends WebMvcAutoConfiguration.WebMvcAutoConfiguration
     }
 
     public static void main(String[] args) {
+
         SpringApplication.run(Application.class, args);
     }
 

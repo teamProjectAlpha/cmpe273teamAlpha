@@ -24,7 +24,7 @@ public class FbUtils {
     @Autowired
     private DAO dbUtils;
 
-    @Inject
+    @Autowired
     public FbUtils(Facebook facebook) {
         this.facebook = facebook;
     }
@@ -40,6 +40,7 @@ public class FbUtils {
         ArrayList<OurPhoto> listOfPhotos = OurPhoto.toOurPhotos(facebook, albumId);
         dbUtils.savePhotoList(listOfPhotos, albumId);
 
+
 //      3.add photo with metadata to aAlbum
         OurAlbum aAlbum = new OurAlbum(album);
         aAlbum.addPhotos(listOfPhotos);
@@ -48,6 +49,9 @@ public class FbUtils {
         if (dbUtils.save(aAlbum) != null)
             return true;
         return false;
+    }
+
+    public FbUtils() {
     }
 
     private PagedList<Photo> getPhotos(String albumId) {
