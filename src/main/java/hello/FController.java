@@ -1,5 +1,6 @@
 package hello;
 
+import aws.s3.aws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -33,6 +34,7 @@ public class FController {
     @Inject
     public FController(Facebook facebook) {
         this.facebook = facebook;
+
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -40,6 +42,7 @@ public class FController {
         if (!facebook.isAuthorized()) {
 
             return "/connect/facebook";
+
         }
 
         return "facebookConnected";
@@ -122,14 +125,22 @@ public class FController {
     public Object getPhotoURL(@PathVariable String albumId, @PathVariable String photoId) {
 
         String imageURL = null;
-        imageURL = fbUtils.getImageURL(albumId, photoId);
+        String objectKey = albumId+"/"+photoId;
+
+        imageURL = //aws.getUrlfor(objectKey).toString();
+                fbUtils.getImageURL(albumId, photoId);
+
         if (imageURL != null)
             return new ResponseEntity(imageURL, HttpStatus.OK);
         else
             return new ResponseEntity(null, HttpStatus.NO_CONTENT);
     }
 
+    @RequestMapping(value = "/getuserid")
+    public Object getUserId(){
 
+        return new ResponseEntity(facebook.userOperations().getUserProfile().getId(), HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/getbackedupalbums")
     public Object getAlbumsBy(HttpServletRequest request) {

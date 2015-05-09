@@ -7,10 +7,8 @@ import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Photo;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  * Created by kaustubh on 19/04/15.
@@ -29,7 +27,12 @@ public class FbUtils {
         this.facebook = facebook;
     }
 
+    public FbUtils() {
+    }
 
+    public String getId(){
+        return facebook.userOperations().getUserProfile().getId();
+    }
     public boolean backupAlbum(String albumId) {
 
 
@@ -51,8 +54,7 @@ public class FbUtils {
         return false;
     }
 
-    public FbUtils() {
-    }
+
 
     private PagedList<Photo> getPhotos(String albumId) {
 

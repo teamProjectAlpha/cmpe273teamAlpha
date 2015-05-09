@@ -64,7 +64,8 @@ public class DAO {
     public void savePhotoList(ArrayList<OurPhoto> ourPhotoArrayList, String albumId) {
         ImageOperations imageOperations = new ImageOperations();
         for (OurPhoto photo : ourPhotoArrayList)
-            imageOperations.writeToMongo(photo, albumId);
+            imageOperations.getImageFromFacebook(photo, albumId);
+        //imageOperations.writeToMongo(photo, albumId);
     }
 
     public ArrayList<OurPhoto> getPhotoList(String albumId) {

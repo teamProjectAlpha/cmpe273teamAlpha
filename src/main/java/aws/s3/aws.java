@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by kaustubh on 05/05/15.
  */
-public class aws {
+public final class aws  {
 
     private static final String BUCKET = "cmpe273-kaustubh";//bucket Name
     private static final long EXPIRY_TIME = 1000 * 3600; // Add 1 hour.
@@ -79,7 +79,7 @@ public class aws {
      * @param path path of files to be uploaded
      * @return md5 hash of the uploaded file
      */
-    public static String uploadFile(String path) {
+    public static String uploadFile(String path ,String fileName) {
         AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
 
         File file = new File(path);
@@ -87,10 +87,9 @@ public class aws {
         AccessControlList acl = new AccessControlList();
         acl.grantPermission(GroupGrantee.AuthenticatedUsers, Permission.Read);
         acl.grantPermission(GroupGrantee.AuthenticatedUsers, Permission.Write);
-        PutObjectRequest o = new PutObjectRequest(BUCKET, file.getParent() +"/"+ file.getName(), file).withAccessControlList(acl);
+        PutObjectRequest o = new PutObjectRequest(BUCKET, fileName, file).withAccessControlList(acl);
         PutObjectResult result = s3Client.putObject(o);
         return (result.getETag());
-
 
     }
 
@@ -131,7 +130,7 @@ public class aws {
      */
     public static void test(String[] args) {
 
-        uploadFile("./newFile.txt");
+        uploadFile("./newFile.txt","newfile/newfile");
         System.out.println(getUrlfor("newFile.txt"));
 
 
@@ -142,7 +141,7 @@ public class aws {
 
 
         ArrayList<String> x = new ArrayList<String>();
-        x.add("newFile.txt");
+        x.add("newfilenewFile");
         x.add("pom.xml");
         System.out.println(getUrlfor(x));
     }
