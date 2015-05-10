@@ -45,19 +45,15 @@ public class EmailNotification {
 
 
         // Setup mail server
+        properties.put("mail.smtp.from", NotificationEmail);
         properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.port", NotificationPort);
-        properties.put("mail.smtp.auth", true);
-        Session session = Session.getDefaultInstance(properties);
+        properties.put("mail.smtp.socketFactory.port", NotificationPort);
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.auth", "true");
 
-        //setup for gmail
-       /* properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.port",25);
-        properties.put("mail.smtp.auth",true);
-        Session session = Session.getInstance(properties, new GmailAuthenticator(NotificationEmail, NotificationPWD));
-*/
+        Session session = Session.getInstance(properties, new GmailAuthenticator(NotificationEmail, NotificationPwd));
+
         try {
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(session);
@@ -69,10 +65,10 @@ public class EmailNotification {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             // Set Subject: header field
-            message.setSubject(" Photo Album " + albumName + " Has been Successfully Backed Up");
+            message.setSubject(" Facebook Time Machine - Photo Album Successfully Backed Up", "UTF-8");
 
             // Now set the actual message
-            message.setText("Dear User,\n\nGreetings !!!\n\n Your Album " + albumName + "  has been successfully backed up. \n\nBest Regards,\nTeamAlpha");
+            message.setText("Dear User,\n\nGreetings !!!\n\n Your Album " + albumName + "  has been successfully backed up. \n\nBest Regards,\nTeam Alpha");
 
             // Send message
             Transport.send(message);
