@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.model.*;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kaustubh on 05/05/15.
@@ -124,26 +125,58 @@ public final class aws {
 
     }
 
-    /**
-     * TEST for the functions
-     * @param args
-     */
-    public static void test(String[] args) {
-
-        uploadFile("./newFile.txt", "newfile/newfile");
-        System.out.println(getUrlfor("newFile.txt"));
+    public static boolean deleteAlbum(String objectKey) {
 
 
-        ArrayList<String> y = new ArrayList<String>();
-        y.add("./newFile.txt");
-        y.add("pom.xml");
-        System.out.println(uploadFiles(y));
+        AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
+        DeleteObjectsRequest multiObjectDeleteRequest;
+
+        ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
+                .withBucketName(BUCKET)
+                .withPrefix(objectKey);
+        ObjectListing objectListing;
+
+        do {
+            multiObjectDeleteRequest = new DeleteObjectsRequest(BUCKET);
+            List<DeleteObjectsRequest.KeyVersion> keys = new ArrayList<DeleteObjectsRequest.KeyVersion>();
+            objectListing = s3Client.listObjects(listObjectsRequest);
+            for (S3ObjectSummary objectSummary :
+                    objectListing.getObjectSummaries()) {
+                keys.add(new DeleteObjectsRequest.KeyVersion(objectSummary.getKey()));
+
+            }
+            multiObjectDeleteRequest.setKeys(keys);
+            listObjectsRequest.setMarker(objectListing.getNextMarker());
+            try {
+                DeleteObjectsResult delObjRes = s3Client.deleteObjects(multiObjectDeleteRequest);
+
+                System.out.format("Successfully deleted all the %s items.\n", delObjRes.getDeletedObjects().size());
+
+            } catch (MultiObjectDeleteException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+        } while (objectListing.isTruncated());
+
+        return true;
 
 
-        ArrayList<String> x = new ArrayList<String>();
-        x.add("newfilenewFile");
-        x.add("pom.xml");
-        System.out.println(getUrlfor(x));
     }
 
+    /**
+     * TEST for the functions
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+
+        uploadFile("./newFile.txt", "newfile/newfile");
+        uploadFile("./newFile.txt", "newfile/newfile1");
+
+        System.out.println(getUrlfor("newFile.txt"));
+
+        deleteAlbum("newfile");
+
+    }
 }

@@ -1,9 +1,6 @@
 .gradle/
 .idea/
 .gradle/
-.idea/
-.idea
-.idea/*
 .gradle/*
 .gradle
 
@@ -45,9 +42,10 @@
 ehthumbs.db
 Thumbs.db
 
-*.iml
+
 build
 
 src/main/resources/application.properties
 src/main/resources/application.properties.aws
-cmpe273teamAlpha.iml
+
+.idea/workspace.xml

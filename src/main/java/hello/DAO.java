@@ -84,4 +84,16 @@ public class DAO {
     public ArrayList<OurAlbum> getAlbumsBy(String person_id) {
         return albumRepo.findByCreatedBy(person_id);
     }
+
+    public boolean removeAlbum(String albumId) {
+        try {
+            albumRepo.delete(albumId);
+
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 }

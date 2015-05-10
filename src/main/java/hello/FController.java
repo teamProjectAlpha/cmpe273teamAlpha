@@ -1,6 +1,5 @@
 package hello;
 
-import aws.s3.aws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -149,7 +148,7 @@ public class FController {
     @RequestMapping(value = "/getbackedupalbums")
     public Object getAlbumsBy(HttpServletRequest request) {
         String person_id = request.getParameter("person_id");
-        ArrayList<OurAlbum> albums = fbUtils.getOurAlbumsBy(person_id);
+        ArrayList<OurAlbum> albums = fbUtils.getOurAlbumsBy(getUserId().toString());
 
         if (!albums.isEmpty())
             return new ResponseEntity(albums, HttpStatus.OK);

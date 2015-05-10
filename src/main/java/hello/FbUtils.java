@@ -1,12 +1,12 @@
 package hello;
 
+import aws.s3.aws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.facebook.api.Album;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Photo;
 import org.springframework.stereotype.Repository;
-
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class FbUtils {
 
     @Autowired
     public FbUtils(Facebook facebook) {
-        this.facebook = facebook;
+        FbUtils.facebook = facebook;
     }
 
     public FbUtils() {
@@ -49,12 +49,18 @@ public class FbUtils {
         aAlbum.addPhotos(listOfPhotos);
 
 //      4.store aAlbum to DB with album meta data from 1
-        if (dbUtils.save(aAlbum) != null)
-            return true;
-        return false;
+        return dbUtils.save(aAlbum) != null;
     }
 
+    public boolean deleteAlbum(String albumId) {
 
+        if (aws.deleteAlbum(albumId))
+            if (dbUtils.removeAlbum(albumId))
+                return true;
+        return false;
+
+
+    }
     private PagedList<Photo> getPhotos(String albumId) {
 
         return facebook.mediaOperations().getPhotos(albumId);
