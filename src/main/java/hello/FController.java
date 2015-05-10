@@ -112,8 +112,12 @@ public class FController {
         //= new FbUtils(facebook);
         boolean result = fbUtils.backupAlbum(albumId);
 
-        if (result == true)
+        if (result == true) {
+            EmailNotification emailNotification = new EmailNotification();
+            emailNotification.sendEmail(facebook.userOperations().getUserProfile().getEmail(), facebook.mediaOperations().getAlbum(albumId).getName());
+            System.out.println("Mail Successfully to the user !!!");
             return new ResponseEntity(albumId, HttpStatus.OK);
+        }
         else
             return new ResponseEntity(null, HttpStatus.NO_CONTENT);
     }
