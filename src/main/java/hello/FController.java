@@ -155,4 +155,15 @@ public class FController {
         else
             return new ResponseEntity(null, HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public Object deleteAlbum(HttpServletRequest request) {
+
+        String albumId = request.getParameter("album_id");
+        boolean success = fbUtils.deleteAlbum(albumId);
+        if (success)
+            return new ResponseEntity(albumId, HttpStatus.OK);
+        else
+            return new ResponseEntity(null, HttpStatus.OK);
+    }
 }
