@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by kaustubh on 05/05/15.
  */
-public final class aws  {
+public final class aws {
 
     private static final String BUCKET = "cmpe273-kaustubh";//bucket Name
     private static final long EXPIRY_TIME = 1000 * 3600; // Add 1 hour.
@@ -79,7 +79,7 @@ public final class aws  {
      * @param path path of files to be uploaded
      * @return md5 hash of the uploaded file
      */
-    public static String uploadFile(String path ,String fileName) {
+    public static String uploadFile(String path, String fileName) {
         AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
 
         File file = new File(path);
@@ -103,7 +103,7 @@ public final class aws  {
         AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
         File file;
         AccessControlList acl;
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> result = new ArrayList<String>();
 
         for (String path : paths) {
             file = new File(path);
@@ -130,11 +130,11 @@ public final class aws  {
      */
     public static void test(String[] args) {
 
-        uploadFile("./newFile.txt","newfile/newfile");
+        uploadFile("./newFile.txt", "newfile/newfile");
         System.out.println(getUrlfor("newFile.txt"));
 
 
-        ArrayList<String> y = new ArrayList<>();
+        ArrayList<String> y = new ArrayList<String>();
         y.add("./newFile.txt");
         y.add("pom.xml");
         System.out.println(uploadFiles(y));

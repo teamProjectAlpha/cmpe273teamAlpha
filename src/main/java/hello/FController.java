@@ -125,7 +125,7 @@ public class FController {
     public Object getPhotoURL(@PathVariable String albumId, @PathVariable String photoId) {
 
         String imageURL = null;
-        String objectKey = albumId+"/"+photoId;
+        String objectKey = albumId + "/" + photoId;
 
         imageURL = //aws.getUrlfor(objectKey).toString();
                 fbUtils.getImageURL(albumId, photoId);
@@ -137,7 +137,7 @@ public class FController {
     }
 
     @RequestMapping(value = "/getuserid")
-    public Object getUserId(){
+    public Object getUserId() {
 
         return new ResponseEntity(facebook.userOperations().getUserProfile().getId(), HttpStatus.OK);
     }

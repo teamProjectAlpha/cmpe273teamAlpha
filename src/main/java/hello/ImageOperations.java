@@ -178,8 +178,8 @@ public class ImageOperations {
 
 
         //TODO : optimise
-        aws.uploadFile(fileLocation.toString() ,albumId+"/"+photo.get_id());
-        System.out.println(aws.getUrlfor(albumId+"/"+photo.get_id()));
+        aws.uploadFile(fileLocation.toString(), albumId + "/" + photo.get_id());
+        System.out.println(aws.getUrlfor(albumId + "/" + photo.get_id()));
 
         // save as another image
         System.out.println(fileLocation.toString());

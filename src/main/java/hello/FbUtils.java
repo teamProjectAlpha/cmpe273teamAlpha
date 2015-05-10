@@ -30,7 +30,7 @@ public class FbUtils {
     public FbUtils() {
     }
 
-    public String getId(){
+    public String getId() {
         return facebook.userOperations().getUserProfile().getId();
     }
     public boolean backupAlbum(String albumId) {
@@ -53,7 +53,6 @@ public class FbUtils {
             return true;
         return false;
     }
-
 
 
     private PagedList<Photo> getPhotos(String albumId) {
