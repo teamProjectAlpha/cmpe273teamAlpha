@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 /**
  * Created by kaustubh on 19/04/15.
  */
+
 @Document
 public class OurAlbum {
     @Id

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import aws.s3.aws;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -130,8 +131,8 @@ public class FController {
         String imageURL = null;
         String objectKey = albumId + "/" + photoId;
 
-        imageURL = //aws.getUrlfor(objectKey).toString();
-                fbUtils.getImageURL(albumId, photoId);
+        imageURL = aws.getUrlfor(objectKey).toString();
+        //fbUtils.getImageURL(albumId, photoId);
 
         if (imageURL != null)
             return new ResponseEntity(imageURL, HttpStatus.OK);
