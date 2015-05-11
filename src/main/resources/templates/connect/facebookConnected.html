@@ -60,15 +60,21 @@
 -->
                 <p ng-bind="srcSelected"></p>
                 <div class ="panel-body">
-                    <div deckgrid="deckgrid" class="deckgrid" source="albums">
-                        <a href="photos.html" ng-click="albumid={{card.id}}">
-                            <div class="a-card">
-                                <p>{{card.name|uppercase}}</p>
-                                <p>#Photos: {{card.count}}</p>
-                                <img src="" data-ng-src="http://lorempixel.com/300/400/"/>
-                            </div>
-                        </a>
-                </div>
+                    	<div deckgrid="deckgrid" class="deckgrid" source="albums">
+                    		<div class="row">
+                            		<div class="col-lg-12">
+                                		<div class="thumbnail">
+				                        <a href="photos.html" ng-click="albumid={{card.id}}">
+				                            <div class="a-card">
+				                                <p>{{card.name|uppercase}}</p>
+				                                <p>#Photos: {{card.count}}</p>
+				                                <img src="" data-ng-src="http://lorempixel.com/300/400/" class="img-responsive img-rounded" alt="Responsive image"/>
+				                            </div>
+				                        </a>
+						</div>
+					</div>
+				</div>
+                      	</div>
                 </div>
             </tab>
             <!--MongoDB Tab-->
