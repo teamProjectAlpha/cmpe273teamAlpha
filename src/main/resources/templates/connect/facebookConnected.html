@@ -2,14 +2,19 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css" rel="stylesheet"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'/>
+    <link href="/Styles/hint.css" rel="stylesheet" type="text/css"/>
+    <link href="/Styles/main.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script th:src="@{~/fba.js}"></script>
     <script th:src="@{~/bower_components/angular-deckgrid/angular-deckgrid.js}"></script>
+    <script th:src="@{~/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js}"></script>
 
-    <title>Facebook TimeMachine</title>
+	<title>Facebook TimeMachine</title>
 
     <style>
         .deckgrid[deckgrid]::before {
@@ -27,41 +32,47 @@
             width: 25%;
         }
 
+        .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
     </style>
+
+
 </head>
 
 <body ng-app="myApp">
-
-<div class="page-header" style="background-color: #15317E">
-    <h2 align="center" style="color:#FFFFFF">Facebook Time Machine</h2>
-</div>
-
-<div ng-controller="myCtrl">
-
-    <div class="main" style="text-align:center">
-        <h2>Welcome, {{userName}}</h2> We are now connected to your Facebook account.
-
-        <p>Click 'Show Albums' to get available albums from your facebook Account.</p>
-        <button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show Albums</button>
-        <br/>
-    </div>
+	<div class="page-header" style="background-color: #15317E">
+		<h2 align="center" style="color:#FFFFFF">Facebook Time Machine</h2>
+	</div>
 
 
-    <div class ="panel panel-primary" ng-hide="dispVal">
-        <div class="panel-heading"> Albums</div>
-        <div class ="panel-body">
-            <div deckgrid="" class="deckgrid" source="albums">
-                <div class="a-card">
-                    <p>{{card.name|uppercase}}</p>
-                    <p>#Photos: {{card.count}}</p>
-                    <img src="" data-ng-alt="{{card.name}}"/>
+	<div ng-controller="myCtrl">
+		<div class="main" style="text-align:center">
+			<h2>Welcome, {{albums.from.name}}</h2> We are now connected to your Facebook account.
+
+-->
+			<p>Click 'Show Albums' to get available albums from your facebook Account.</p>
+			<button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show Albums</button>
+			<br/>
+		</div>
+
+        <tabset>
+            <tab heading="Facebook" ng-click="getAlbums()">
+                <!--<div deckgrid="" class="deckgrid" source="albums" cardTemplate="PhotoTemplate.html"></div>-->
+                <div class ="panel-body">
+                    <div deckgrid="" class="deckgrid" source="albums">
+                        <div class="a-card">
+                            <p>{{card.name|uppercase}}</p>
+                            <p>#Photos: {{card.count}}</p>
+                            <img src="" data-ng-alt="{{card.id.photos.source}}"/>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </tab>
+            <tab heading="Mongo">Mongo
+            </tab>
+        </tabset>
 
-        </div>
-    </div>
 
-</div>
+	</div>
 
 </body>
 
