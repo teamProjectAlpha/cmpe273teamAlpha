@@ -1,28 +1,34 @@
 var app = angular.module('myApp', ['akoenig.deckgrid', 'ui.bootstrap']);
-var photos = [
-	{id: 'photo-1', src: 'http://lorempixel.com/300/400'},
-	{id: 'photo-2', src: 'http://lorempixel.com/300/400'},
-	{id: 'photo-3', src: 'http://lorempixel.com/300/400'},
-	{id: 'photo-4', src: 'http://lorempixel.com/300/400'},
-	{id: 'photo-5', src: 'http://lorempixel.com/300/400'},
-	{id: 'photo-6', src: 'http://lorempixel.com/300/400'},
-	{id: 'photo-7', src: 'http://lorempixel.com/300/400'}
-];
+
 app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 
 	$scope.dispVal = 'true';
 	$scope.detailDispVal = 'true';
 	$scope.showModal = 'true';
+    $scope.albumFirstPhotos = [];
 
-	$scope.getAlbums = function () {
-		$scope.dispVal = !$scope.dispVal;
-		$http({
-			method: 'GET',
-			url: '/getalbums'
-		}).success(function (response) {
-			$scope.albums = response;
-			return response;
-		})
+    /*we will fetch link for the first photo of the given album*/
+    $scope.albumPhotoLinks = function(albumid){
+
+    };
+
+	$scope.getAlbums = function (src) {
+        $scope.srcSelected = src;
+        if($scope.srcSelected === 'facebook') {
+
+            $http({
+                method: 'GET',
+                url: '/getalbums'
+            }).success(function (response) {
+                $scope.albums = response;
+                return response;
+            })
+
+        } else if($scope.srcSelected === 'backup'){
+            /* Step 1: Get meta from Mongo*/
+            /*Step 2: Get Photo Links from S3*/
+            /*Step3: Combine Objects and return*/
+        }
 	};
 
 	$scope.getPhotos = function (val) {
@@ -32,12 +38,12 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			url: '/' + $scope.album_id + '/photos'
 		}).success(function (response) {
 			$scope.photos = response;
-
+			return;
 		});
 	};
 
-	$scope.backupAlbum = function (val) {
-		alert("Started backup... This will take few seconds to complete...Click OK to continue.");
+    $scope.backupAlbum = function (val) {
+		alert("Started backup... This may take few seconds to complete...Click OK to continue.");
 		$scope.album_id = val;
 		document.getElementById("linkbtn").disabled = true;
 		$http({
@@ -51,9 +57,9 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 				alert("Sorry, Backup failed");
 			}
 			document.getElementById("linkbtn").disabled = false;
-
+			return;
 		});
-	};
+	}
 
 	$scope.getAlbumMeta = function (val) {
 		$scope.album_id = val;
@@ -68,17 +74,16 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 		});
 
 		if ($scope.isBackedUp !== null) {
-
+			return;
 		} else {
 			alert("Album not found on MongoDB!");
-
+			return;
 		}
-	};
+	}
 
 
 	$scope.showPhotos = function (val) {
 
-		$scope.showModal = !$scope.showModal;
 		$scope.album_id = val;
 		$scope.isBackedUp = 'false';
 
@@ -101,7 +106,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			}).success(function (photos) {
 
 				$scope.photos = photos;
-
+				return;
 			});
 		} else {
 			alert('Please backup this album first!');
