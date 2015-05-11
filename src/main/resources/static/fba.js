@@ -1,9 +1,15 @@
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['akoenig.deckgrid']);
 app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 
 	$scope.dispVal = 'true';
 	$scope.detailDispVal = 'true';
 	$scope.showModal = 'true';
+
+    $scope.Myphotos = [
+        {id: 'p1', 'title': 'A nice day!', src: "http://lorempixel.com/300/400/"},
+        {id: 'p2', 'title': 'Puh!', src: "http://lorempixel.com/300/400/sports"},
+        {id: 'p3', 'title': 'What a club!', src: "http://lorempixel.com/300/400/nightlife"}
+    ];
 
 	$scope.getAlbums = function () {
 		$scope.dispVal = !$scope.dispVal;
@@ -12,7 +18,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			url: '/getalbums'
 		}).success(function (response) {
 			$scope.albums = response;
-			return response;
+            return response;
 		})
 	}
 

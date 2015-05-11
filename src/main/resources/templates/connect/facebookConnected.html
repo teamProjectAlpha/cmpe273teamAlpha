@@ -2,88 +2,66 @@
 <html>
 
 <head>
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	<script th:src="@{~/fba.js}"></script>
-	<title>Facebook TimeMachine</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script th:src="@{~/fba.js}"></script>
+    <script th:src="@{~/bower_components/angular-deckgrid/angular-deckgrid.js}"></script>
+
+    <title>Facebook TimeMachine</title>
+
+    <style>
+        .deckgrid[deckgrid]::before {
+            /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
+            content: '4 .column.column-1-4';
+            font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
+            visibility: hidden;
+        }
+
+        .deckgrid .column {
+            float: left;
+        }
+
+        .deckgrid .column-1-4 {
+            width: 25%;
+        }
+
+    </style>
 </head>
 
 <body ng-app="myApp">
-	<div class="page-header" style="background-color: #15317E">
-		<h2 align="center" style="color:#FFFFFF">Facebook Time Machine</h2>
-	</div>
+
+<div class="page-header" style="background-color: #15317E">
+    <h2 align="center" style="color:#FFFFFF">Facebook Time Machine</h2>
+</div>
+
+<div ng-controller="myCtrl">
+
+    <div class="main" style="text-align:center">
+        <h2>Welcome, {{userName}}</h2> We are now connected to your Facebook account.
+
+        <p>Click 'Show Albums' to get available albums from your facebook Account.</p>
+        <button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show Albums</button>
+        <br/>
+    </div>
 
 
-	<div ng-controller="myCtrl">
-		<div class="main" style="text-align:center">
-			<h2>Welcome, {{albums.from.name}}</h2> We are now connected to your Facebook account.
-			<!--
-			<p>What would you like to do?</p>
-			<label>See albums from:
-				<select>
-					<option value="Facebook">Facebook</option>
-					<option value="MongoDB">MongoDB</option>
-				</select>
-			</label>
--->
-			<p>Click 'Show Albums' to get available albums from your facebook Account.</p>
-			<button ng-click="getAlbums()" style="color: #15317E" class="btn btn-default">Show Albums</button>
-			<br/>
-		</div>
+    <div class ="panel panel-primary" ng-hide="dispVal">
+        <div class="panel-heading"> Albums</div>
+        <div class ="panel-body">
+            <div deckgrid="" class="deckgrid" source="albums">
+                <div class="a-card">
+                    <p>{{card.name|uppercase}}</p>
+                    <p>#Photos: {{card.count}}</p>
+                    <img src="" data-ng-alt="{{card.name}}"/>
+                </div>
+            </div>
 
-		<div class="panel panel-primary" ng-hide="dispVal">
-			<!-- Default panel contents -->
-			<div class="panel-heading">List of albums</div>
+        </div>
+    </div>
 
-			<div class="panel-body">
-				<p>Click on album ID to back it up on MongoDB.</p>
-			</div>
-
-			<!-- Table -->
-			<table class="table">
-				<tr>
-					<th>Album Name</th>
-					<th>Album ID</th>
-					<th>Details</th>
-				</tr>
-				<tr ng-repeat="album in albums">
-					<td>{{album.name | uppercase}}</td>
-					<td>
-						<button id="linkbtn" ng-click="backupAlbum(album.id)" style="color: #15317E" class="btn btn-link">{{album.id}}</button>
-					</td>
-					<td>
-						<button ng-click="getAlbumMeta(album.id)" style="color: #15317E" class="btn btn-default">Show Details</button>
-						<div class="detailContainer">
-							<div ng-hide="detailDispVal" style="height: 120px; background: none repeat scroll 0% 0% rgb(246, 229, 246); width: 300px; float: left; margin: 10px;">
-								<ul>
-									<li>Photo Count:
-										<button ng-click="showPhotos(mongoAlbum._id)" style="color: #15317E" class="btn btn-link">{{mongoAlbum.count}}</button>
-									</li>
-									<li>Created Time: {{mongoAlbum.createdTime}}</li>
-									<li>Update Time: {{mongoAlbum.updatedTime}}</li>
-								</ul>
-							</div>
-							<!-- Implement Modal from here-->
-							<!-- add ng-hide="showModal" to modal tag instead of div tag below-->
-							<div ng-hide="showModal" style="width: 300px; height: 300px; background: none repeat scroll 0% 0% rgb(232, 243, 232); margin: 10px; float: left;">
-
-								<ul ng-repeat="item in photos">
-									<li>
-										<a href="{{item.source}}">{{'ID: '+item._id + ',NAME:' +item.name}}</a>
-										<!--										<img ng-src="{{item.source}}" ng-width="200" ng-height="200" />-->
-									</li>
-								</ul>
-							</div>
-							<!-- modal ends-->
-						</div>
-					</td>
-				</tr>
-
-			</table>
-		</div>
-	</div>
+</div>
 
 </body>
 
