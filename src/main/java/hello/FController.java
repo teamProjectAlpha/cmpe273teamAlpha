@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 @Controller
 @EnableAutoConfiguration
@@ -23,8 +26,8 @@ import java.util.ArrayList;
 @RequestMapping("/")
 public class FController {
 
+    final Properties configProp = new Properties();
     private Facebook facebook;
-
     @Autowired
     private FbUtils fbUtils;
     @Autowired
@@ -109,13 +112,21 @@ public class FController {
     @RequestMapping(value = "/backup")
     public Object backupAlbum(HttpServletRequest request) {
         String albumId = request.getParameter("album_id");
-        //= new FbUtils(facebook);
         boolean result = fbUtils.backupAlbum(albumId);
 
         if (result == true) {
             EmailNotification emailNotification = new EmailNotification();
             emailNotification.sendEmail(facebook.userOperations().getUserProfile().getEmail(), facebook.mediaOperations().getAlbum(albumId).getName());
             System.out.println("Mail Successfully to the user !!!");
+
+            try {
+                configProp.load(this.getClass().getClassLoader().getResourceAsStream("application.properties"));
+                String tempDir = new String(configProp.getProperty("IMAGE_DIRECTORY"));
+                delete(new File(tempDir + "/" + albumId + "/"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return new ResponseEntity(albumId, HttpStatus.OK);
         }
         else
@@ -145,4 +156,14 @@ public class FController {
         else
             return new ResponseEntity(null, HttpStatus.NO_CONTENT);
     }
+
+    protected void delete(File element) {
+        if (element.isDirectory()) {
+            for (File f : element.listFiles()) {
+                this.delete(f);
+            }
+        }
+        element.delete();
+    }
+
 }
