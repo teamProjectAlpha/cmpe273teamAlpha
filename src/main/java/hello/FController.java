@@ -16,7 +16,10 @@ import aws.s3.aws;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 @Controller
 @EnableAutoConfiguration
@@ -24,8 +27,8 @@ import java.util.ArrayList;
 @RequestMapping("/")
 public class FController {
 
+    final Properties configProp = new Properties();
     private Facebook facebook;
-
     @Autowired
     private FbUtils fbUtils;
     @Autowired
@@ -34,7 +37,6 @@ public class FController {
     @Inject
     public FController(Facebook facebook) {
         this.facebook = facebook;
-
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -42,7 +44,6 @@ public class FController {
         if (!facebook.isAuthorized()) {
 
             return "/connect/facebook";
-
         }
 
         return "facebookConnected";
@@ -57,7 +58,6 @@ public class FController {
     public Object getAlbums() {
 
         if (!facebook.isAuthorized()) {
-
 
             return "redirect:/connect/facebook";
         }
@@ -119,6 +119,15 @@ public class FController {
             EmailNotification emailNotification = new EmailNotification();
             emailNotification.sendEmail(facebook.userOperations().getUserProfile().getEmail(), facebook.mediaOperations().getAlbum(albumId).getName());
             System.out.println("Mail Successfully to the user !!!");
+
+            try {
+                configProp.load(this.getClass().getClassLoader().getResourceAsStream("application.properties"));
+                String tempDir = new String(configProp.getProperty("IMAGE_DIRECTORY"));
+                delete(new File(tempDir + "/" + albumId + "/"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return new ResponseEntity(albumId, HttpStatus.OK);
         }
         else
@@ -172,4 +181,14 @@ public class FController {
         else
             return new ResponseEntity(null, HttpStatus.OK);
     }
+
+    protected void delete(File element) {
+        if (element.isDirectory()) {
+            for (File f : element.listFiles()) {
+                this.delete(f);
+            }
+        }
+        element.delete();
+    }
+
 }

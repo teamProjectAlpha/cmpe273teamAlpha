@@ -1,4 +1,13 @@
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['akoenig.deckgrid', 'ui.bootstrap']);
+var photos = [
+	{id: 'photo-1', src: 'http://lorempixel.com/300/400'},
+	{id: 'photo-2', src: 'http://lorempixel.com/300/400'},
+	{id: 'photo-3', src: 'http://lorempixel.com/300/400'},
+	{id: 'photo-4', src: 'http://lorempixel.com/300/400'},
+	{id: 'photo-5', src: 'http://lorempixel.com/300/400'},
+	{id: 'photo-6', src: 'http://lorempixel.com/300/400'},
+	{id: 'photo-7', src: 'http://lorempixel.com/300/400'}
+];
 app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 
 	$scope.dispVal = 'true';
@@ -14,7 +23,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			$scope.albums = response;
 			return response;
 		})
-	}
+	};
 
 	$scope.getPhotos = function (val) {
 		$scope.album_id = val;
@@ -23,9 +32,9 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			url: '/' + $scope.album_id + '/photos'
 		}).success(function (response) {
 			$scope.photos = response;
-			return;
+
 		});
-	}
+	};
 
 	$scope.backupAlbum = function (val) {
 		alert("Started backup... This will take few seconds to complete...Click OK to continue.");
@@ -42,9 +51,9 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 				alert("Sorry, Backup failed");
 			}
 			document.getElementById("linkbtn").disabled = false;
-			return;
+
 		});
-	}
+	};
 
 	$scope.getAlbumMeta = function (val) {
 		$scope.album_id = val;
@@ -59,12 +68,12 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 		});
 
 		if ($scope.isBackedUp !== null) {
-			return;
+
 		} else {
 			alert("Album not found on MongoDB!");
-			return;
+
 		}
-	}
+	};
 
 
 	$scope.showPhotos = function (val) {
@@ -92,7 +101,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			}).success(function (photos) {
 
 				$scope.photos = photos;
-				return;
+
 			});
 		} else {
 			alert('Please backup this album first!');
