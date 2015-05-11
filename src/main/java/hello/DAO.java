@@ -86,8 +86,12 @@ public class DAO {
     }
 
     public boolean removeAlbum(String albumId) {
+        if (albumId == null)
+            return false;
+
         try {
-            albumRepo.delete(albumId);
+            System.out.println(albumId);
+            System.out.println(albumRepo.deleteBy_id(albumId));
 
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -96,4 +100,5 @@ public class DAO {
 
         return true;
     }
+
 }

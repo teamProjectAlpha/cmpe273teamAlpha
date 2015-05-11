@@ -54,9 +54,12 @@ public class FbUtils {
 
     public boolean deleteAlbum(String albumId) {
 
-        if (aws.deleteAlbum(albumId))
-            if (dbUtils.removeAlbum(albumId))
-                return true;
+        System.out.println(albumId);
+
+        if (albumId != null)
+            if (aws.deleteAlbum(albumId))
+                if (dbUtils.removeAlbum(albumId))
+                    return true;
         return false;
 
 

@@ -159,8 +159,13 @@ public class FController {
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public Object deleteAlbum(HttpServletRequest request) {
 
+        boolean success = false;
         String albumId = request.getParameter("album_id");
-        boolean success = fbUtils.deleteAlbum(albumId);
+        if (albumId != null)
+            success = fbUtils.deleteAlbum(albumId);
+        else
+            System.out.println("album_id not found");
+
         if (success)
             return new ResponseEntity(albumId, HttpStatus.OK);
         else

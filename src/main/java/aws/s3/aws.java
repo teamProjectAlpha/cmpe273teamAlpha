@@ -127,6 +127,8 @@ public final class aws {
 
     public static boolean deleteAlbum(String objectKey) {
 
+        if (objectKey == null)
+            return false;
 
         AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
         DeleteObjectsRequest multiObjectDeleteRequest;
@@ -169,7 +171,7 @@ public final class aws {
      *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void test(String[] args) {
 
         uploadFile("./newFile.txt", "newfile/newfile");
         uploadFile("./newFile.txt", "newfile/newfile1");
