@@ -1,7 +1,7 @@
 var app = angular.module('myApp', ['akoenig.deckgrid', 'ui.bootstrap']);
 
 app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
-
+    //alert("I am in controller");
 	$scope.dispVal = 'true';
 	$scope.detailDispVal = 'true';
 	$scope.showModal = 'true';
@@ -70,6 +70,9 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 	};
 
 	$scope.getAlbumMeta = function (val) {
+    //function getAlbumMeta() {
+        //alert("please work"+val);
+        console.log("I am in get albummeta" + val);
 		$scope.album_id = val;
 		$scope.detailDispVal = !$scope.detailDispVal;
 		$scope.isBackedUp = 'false';
@@ -88,6 +91,42 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			return;
 		}
 	};
+
+    $scope.imageUrl = function (albumId,photoId) {
+
+        $http({
+            method: 'GET',
+            url: '/'+albumId+'/photos/'+photoId
+        }).success(function (response) {
+
+            if (response !== null) {
+
+                return response;
+            }
+
+        });
+    };
+
+    $scope.delete = function (albumId) {
+
+        document.getElementById("hide1").hidden=true;
+        $http({
+            method: 'DELETE',
+            url: '/delete?album_id='+albumId
+        }).success(function (response) {
+            if (response !== null) {
+                return response;
+            }else{
+                return null;
+            }
+
+        });
+    };
+
+    $scope.getPhotoMeta = function (val) {
+
+        $scope.selectedPhoto=val;
+    };
 
 
 	$scope.showPhotos = function (val) {
