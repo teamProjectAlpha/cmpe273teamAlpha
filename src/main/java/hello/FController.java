@@ -152,13 +152,15 @@ public class FController {
     @RequestMapping(value = "/getuserid")
     public Object getUserId() {
 
+        System.out.println(facebook.userOperations().getUserProfile().getId());
+
         return new ResponseEntity(facebook.userOperations().getUserProfile().getId(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getbackedupalbums")
+    @RequestMapping(value = "/getbackedupalbums", method = RequestMethod.GET)
     public Object getAlbumsBy(HttpServletRequest request) {
-        String person_id = request.getParameter("person_id");
-        ArrayList<OurAlbum> albums = fbUtils.getOurAlbumsBy(getUserId().toString());
+        //String person_id = request.getParameter("person_id");
+        ArrayList<OurAlbum> albums = fbUtils.getOurAlbumsBy(facebook.userOperations().getUserProfile().getId());
 
         if (!albums.isEmpty())
             return new ResponseEntity(albums, HttpStatus.OK);
