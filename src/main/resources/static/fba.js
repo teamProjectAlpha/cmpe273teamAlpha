@@ -43,10 +43,10 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 	};
 
     $scope.backupAlbum = function (val) {
-		alert("Started backup... This may take few seconds to complete...Click OK to continue.");
-		$scope.album_id = val;
-		document.getElementById("linkbtn").disabled = true;
-		$http({
+            alert("Started backup... This may take few seconds to complete...Click OK to continue. id: " + val);
+            $scope.album_id = val;
+
+            $http({
 			method: 'GET',
 			url: '/backup?album_id=' + $scope.album_id
 		}).success(function (response) {
@@ -56,10 +56,10 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 			} else {
 				alert("Sorry, Backup failed");
 			}
-			document.getElementById("linkbtn").disabled = false;
+
 			return;
 		});
-	}
+	};
 
 	$scope.getAlbumMeta = function (val) {
 		$scope.album_id = val;
