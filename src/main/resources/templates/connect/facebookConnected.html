@@ -99,7 +99,7 @@
                 <div class ="panel-body">
                     <div deckgrid="deckgrid" class="deckgrid" source="albums">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" id="hide1">
                                 <div class="thumbnail">
                                     <a href="#Foo" data-toggle="collapse" data-ng-click="mother.getAlbumMeta(card._id)">
                                         <div class="a-card">
@@ -107,12 +107,11 @@
                                             <p>#Photos: {{card.count}}</p>
 
                                             <img src="" data-ng-src="{{card.photos[0].source}}" class="img-responsive img-rounded" alt="Responsive image"/>
-
                                         </div>
                                     </a>
-                                    <!--<Modal Starts>-->
 
-                                    <!--<Modal Ends>-->
+                                    <button type="submit" class="btn btn-default toggle-visibility" data-target="hide1" style="color: #15317E" data-ng-click="mother.delete(card._id)">Delete</button>
+
                                 </div>
                             </div>
                         </div>
@@ -121,13 +120,36 @@
                     <div id="Foo" class="collapse">
 
                         <div class="container">
-                            <div class="row">
-                                <a href="">
-                                <div ng-repeat="photo in mongoAlbum" class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{{photo.source}}" />
-                                    <p>Likes: {{photo.likes.length}}</p>
-                                </div>
-                                </a>
 
+                            <div class="row">
+                                <br/>
+
+                                <div ng-repeat="photo in mongoAlbum.photos" class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="" data-toggle="modal" data-target="#smallModal" ng-click="getPhotoMeta(photo)">
+                                        <img class="img-responsive" ng-src="https://s3-us-west-1.amazonaws.com/cmpe273-kaustubh/{{mongoAlbum._id}}/{{photo._id}}" />
+                                    </a>
+                                </div>
+
+                                <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">Photo Meta</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <b>Likes: {{selectedPhoto.likes.length}}</b>
+                                                <b>Comments:</b>
+                                                <div ng-repeat="comment in selectedPhoto.comments.data">
+                                                    <p>{{comment.message}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
