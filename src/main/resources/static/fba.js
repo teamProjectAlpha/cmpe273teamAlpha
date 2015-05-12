@@ -109,7 +109,7 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.delete = function (albumId) {
 
-        document.getElementById("hide1").hidden=true;
+        document.getElementById(albumId).hidden=true;
         $http({
             method: 'DELETE',
             url: '/delete?album_id='+albumId
