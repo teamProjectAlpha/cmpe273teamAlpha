@@ -86,7 +86,7 @@ public final class aws {
         File file = new File(path);
 
         AccessControlList acl = new AccessControlList();
-        acl.grantPermission(GroupGrantee.AuthenticatedUsers, Permission.Read);
+        acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
         acl.grantPermission(GroupGrantee.AuthenticatedUsers, Permission.Write);
         PutObjectRequest o = new PutObjectRequest(BUCKET, fileName, file).withAccessControlList(acl);
         PutObjectResult result = s3Client.putObject(o);
@@ -109,7 +109,7 @@ public final class aws {
         for (String path : paths) {
             file = new File(path);
             acl = new AccessControlList();
-            acl.grantPermission(GroupGrantee.AuthenticatedUsers, Permission.Read);
+            acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
             acl.grantPermission(GroupGrantee.AuthenticatedUsers, Permission.Write);
 
 
@@ -178,7 +178,7 @@ public final class aws {
 
         System.out.println(getUrlfor("newFile.txt"));
 
-        deleteAlbum("newfile");
+        // deleteAlbum("newfile");
 
     }
 }
