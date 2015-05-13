@@ -81,7 +81,7 @@ public final class aws {
      * @return md5 hash of the uploaded file
      */
     public static String uploadFile(String path, String fileName) {
-        AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
+      /*  AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
 
         File file = new File(path);
 
@@ -90,7 +90,8 @@ public final class aws {
         acl.grantPermission(GroupGrantee.AuthenticatedUsers, Permission.Write);
         PutObjectRequest o = new PutObjectRequest(BUCKET, fileName, file).withAccessControlList(acl);
         PutObjectResult result = s3Client.putObject(o);
-        return (result.getETag());
+        return (result.getETag());*/
+        return null;
 
     }
 
@@ -101,7 +102,7 @@ public final class aws {
      * @return md5 hash of the uploaded file
      */
     public static ArrayList<String> uploadFiles(ArrayList<String> paths) {
-        AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
+       /* AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
         File file;
         AccessControlList acl;
         ArrayList<String> result = new ArrayList<String>();
@@ -121,7 +122,8 @@ public final class aws {
 
         }
 
-        return result;
+        return result;*/
+        return null;
 
     }
 
@@ -173,10 +175,10 @@ public final class aws {
      */
     public static void test(String[] args) {
 
-        uploadFile("./newFile.txt", "newfile/newfile");
-        uploadFile("./newFile.txt", "newfile/newfile1");
+        // uploadFile("./newFile.txt", "newfile/newfile");
+        //uploadFile("./newFile.txt", "newfile/newfile1");
 
-        System.out.println(getUrlfor("newFile.txt"));
+        //System.out.println(getUrlfor("newFile.txt"));
 
         // deleteAlbum("newfile");
 
