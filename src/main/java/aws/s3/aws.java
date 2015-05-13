@@ -91,6 +91,7 @@ public final class aws {
         PutObjectRequest o = new PutObjectRequest(BUCKET, fileName, file).withAccessControlList(acl);
         PutObjectResult result = s3Client.putObject(o);
         return (result.getETag());
+        //return null;
 
     }
 
@@ -121,7 +122,9 @@ public final class aws {
 
         }
 
+
         return result;
+        //return null;
 
     }
 
@@ -173,10 +176,10 @@ public final class aws {
      */
     public static void test(String[] args) {
 
-        uploadFile("./newFile.txt", "newfile/newfile");
-        uploadFile("./newFile.txt", "newfile/newfile1");
+        // uploadFile("./newFile.txt", "newfile/newfile");
+        //uploadFile("./newFile.txt", "newfile/newfile1");
 
-        System.out.println(getUrlfor("newFile.txt"));
+        //System.out.println(getUrlfor("newFile.txt"));
 
         // deleteAlbum("newfile");
 
