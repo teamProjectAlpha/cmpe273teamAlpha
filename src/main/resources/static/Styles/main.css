@@ -36,8 +36,8 @@ h2 {
 }
 
 p {
-    font-size: 80%;
-    opacity: .5;
+    font-size: 90%;
+    opacity: .8;
 }
 
 h1, h2, h3, h4 {
@@ -144,7 +144,7 @@ img {
 .deckgrid {
     margin: 100px auto;
     padding: 10px;
-    width: 1000px;
+    width: 650px;
 }
 
 .deckgrid[deckgrid]::before {
