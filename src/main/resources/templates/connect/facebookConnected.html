@@ -19,9 +19,12 @@
 
 	<style>
 		#spinner {
-			position: fixed;
-			top: 50%;
-			left: 50%;
+			   background:white;
+                           position: fixed;
+                           top: 50%;
+                           left: 50%;
+                           bgOpacity:0.5;
+                           isOnly:true;
 		}
 		
 		.deckgrid[deckgrid]::before {
@@ -98,7 +101,8 @@
 										</div>
 										<button type="button" click-and-disable="mother.backupAlbum(card.id)">Backup</button>
 										<div id="spinner" style="display:none;">
-											<img id="img-spinner" data-ng-src="http://img42.com/PsNg5+" alt="loading" />
+										<h4>Please wait, while we take the backup.</h4>
+										<img id="img-spinner" data-ng-src="http://img42.com/PsNg5+" alt="loading" height="200" width="200" />
 										</div>
 									</a>
 								</div>
@@ -153,10 +157,11 @@
 												<h4 class="modal-title" id="myModalLabel">Photo Meta</h4>
 											</div>
 											<div class="modal-body">
-												<b>Likes: {{selectedPhoto.likes.length}}</b>
-												<b>Comments:</b>
+                                                						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">  Likes: {{selectedPhoto.likes.length}}</span>
+												<p>{{selectedPhoto.createdBy.name}}</p>
+                                                						<span class="glyphicon glyphicon-bullhorn" aria-hidden="true">  Comments:</span>
 												<div ng-repeat="comment in selectedPhoto.comments.data">
-													<p>{{comment.message}}</p>
+													<p>{{comment.from.name+' says :'+comment.message}}</p>
 												</div>
 											</div>
 											<div class="modal-footer">
