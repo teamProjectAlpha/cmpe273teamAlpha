@@ -143,8 +143,8 @@ app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 		});
 	};
 
-	$scope.getPhotoMeta = function (val) {
-
+	$scope.getPhotoMeta = function (val, val2) {
+        $scope.albumid=val2;
 		$scope.selectedPhoto = val;
 	};
 
