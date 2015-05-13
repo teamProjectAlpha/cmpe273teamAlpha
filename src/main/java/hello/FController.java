@@ -111,6 +111,14 @@ public class FController {
      */
     @RequestMapping(value = "/backup")
     public Object backupAlbum(HttpServletRequest request) {
+
+        if (!facebook.isAuthorized()) {
+
+            return "/connect/facebook";
+        }
+
+
+
         String albumId = request.getParameter("album_id");
         //= new FbUtils(facebook);
         boolean result = fbUtils.backupAlbum(albumId);
@@ -137,6 +145,11 @@ public class FController {
     @RequestMapping(value = "/{albumId}/photos/{photoId}", method = RequestMethod.GET)
     public Object getPhotoURL(@PathVariable String albumId, @PathVariable String photoId) {
 
+        if (!facebook.isAuthorized()) {
+
+            return "/connect/facebook";
+        }
+
         String imageURL = null;
         String objectKey = albumId + "/" + photoId;
 
@@ -152,6 +165,11 @@ public class FController {
     @RequestMapping(value = "/getuserid")
     public Object getUserId() {
 
+        if (!facebook.isAuthorized()) {
+
+            return "/connect/facebook";
+        }
+
         System.out.println(facebook.userOperations().getUserProfile().getId());
 
         return new ResponseEntity(facebook.userOperations().getUserProfile().getId(), HttpStatus.OK);
@@ -159,7 +177,12 @@ public class FController {
 
     @RequestMapping(value = "/getbackedupalbums", method = RequestMethod.GET)
     public Object getAlbumsBy(HttpServletRequest request) {
-        //String person_id = request.getParameter("person_id");
+
+        if (!facebook.isAuthorized()) {
+
+            return "/connect/facebook";
+        }
+
         ArrayList<OurAlbum> albums = fbUtils.getOurAlbumsBy(facebook.userOperations().getUserProfile().getId());
 
         if (!albums.isEmpty())
@@ -170,6 +193,11 @@ public class FController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public Object deleteAlbum(HttpServletRequest request) {
+
+        if (!facebook.isAuthorized()) {
+
+            return "/connect/facebook";
+        }
 
         boolean success = false;
         String albumId = request.getParameter("album_id");
